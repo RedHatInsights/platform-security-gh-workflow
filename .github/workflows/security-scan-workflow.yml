@@ -15,8 +15,6 @@
 
 name: ConsoleDot Platform Security Scan
 
-env: 
-  DOCKERFILE_PATH: test
 
 on:
   push:
@@ -28,6 +26,10 @@ on:
 jobs:
   Make_variable:
     runs-on: ubuntu-latest
+
+    env: 
+      DOCKERFILE_PATH: 'test'
+
     steps:
       - name: Set Variable
         run: |
