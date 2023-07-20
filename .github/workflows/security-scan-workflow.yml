@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my_variable_artifact
-          path: $DOCKERFILE_PATH
+          path: $GITHUB_ENV
 
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
