@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set Variable
-        run: echo "${DOCKERFILE_PATH}"" >> $GITHUB_ENV && echo "Git Hub Environment = $GITHUB_ENV"
+        run: echo "${DOCKERFILE_PATH}" >> $GITHUB_ENV && echo "Git Hub Environment = $GITHUB_ENV"
 
       - name: Upload variable as artifact
         uses: actions/upload-artifact@v3
