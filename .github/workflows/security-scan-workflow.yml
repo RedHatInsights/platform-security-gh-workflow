@@ -33,7 +33,7 @@ jobs:
       - name: Set Variable
         run: |
           echo ${DOCKERFILE_PATH} 
-          export ${DOCKERFILE_PATH} >> $GITHUB_ENV
+          env
 
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
