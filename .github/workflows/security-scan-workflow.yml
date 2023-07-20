@@ -26,5 +26,17 @@ on:
     branches: [ "main", "master", "security-compliance" ]
 
 jobs:
+  Make_variable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Variable
+        run: echo ${DOCKERFILE_PATH} >> $GITHUB_ENV && echo "Git Hub Environment = $GITHUB_ENV"
+
+      - name: Upload variable as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my_variable_artifact
+          path: $GITHUB_ENV
+          
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
