@@ -31,9 +31,13 @@ jobs:
 
     steps:
       - name: Set Variable
-        run: |
-          echo ${DOCKERFILE_PATH} 
-          env
+        run: echo ${DOCKERFILE_PATH} 
+
+      - name: Upload Variable
+        uses: actions/upload-artifact@v3
+        with:
+          name: my_variable_artifact
+          path: $DOCKERFILE_PATH
 
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
