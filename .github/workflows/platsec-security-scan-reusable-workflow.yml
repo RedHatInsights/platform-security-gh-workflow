@@ -75,6 +75,7 @@ jobs:
     permissions:
       contents: read     # for actions/checkout to fetch code
     runs-on: ubuntu-latest
+    needs: Anchore-Grype-Vulnerability-Scan
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3
