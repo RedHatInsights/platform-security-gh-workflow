@@ -50,6 +50,8 @@ jobs:
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
       continue-on-error: true
+    - name: conditional
+      run: echo "DOCKERPATH=." >> @GITHUB_ENV
     - name: test again
       run: echo $DOCKERPATH
       continue-on-error: true
