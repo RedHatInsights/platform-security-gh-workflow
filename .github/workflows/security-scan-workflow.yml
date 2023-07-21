@@ -33,5 +33,10 @@ jobs:
         run: |
           echo $DOCKERFILE_PATH > docker_path.txt
           cat docker_path.txt
+      - name: Upload data
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-path
+          path: ./docker_path.txt
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
