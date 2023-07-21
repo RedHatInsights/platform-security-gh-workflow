@@ -30,6 +30,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get the variable
-        run: echo $DOCKERFILE_PATH
+        run: |
+          echo $DOCKERFILE_PATH > docker_path.txt
+          echo "cat docker_path.txt"
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
