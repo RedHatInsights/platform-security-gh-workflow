@@ -33,19 +33,19 @@ jobs:
       contents: read    # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     steps:
-    - name: Just wait
+    - name: Just wait # this is to give security scan workflow time to upload the dockerfile path
       run: sleep 5
     - name: Check out the code
       uses: actions/checkout@v3
-    - name: Download data
+    - name: Download dockerfile path
       uses: actions/download-artifact@v3
       with:
         name: docker-path
     - name: test
-      run: cat docker_path.txt
+      run: cat docker-path.txt
     - name: Assign
       id: set_variable
-      run: echo "DOCKERPATH=$(cat docker_path.txt)" >> $GITHUB_ENV
+      run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
@@ -78,19 +78,19 @@ jobs:
       contents: read     # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     steps:
-    - name: Just Wait
+    - name: Just Wait # this is to give security scan workflow time to upload the dockerfile path
       run: sleep 5
     - name: Checkout the code
       uses: actions/checkout@v3
-    - name: Download data
+    - name: Download dockerfile path
       uses: actions/download-artifact@v3
       with:
         name: docker-path
     - name: test
-      run: cat docker_path.txt
+      run: cat docker-path.txt
     - name: Assign
       id: set_variable
-      run: echo "DOCKERPATH=$(cat docker_path.txt)" >> $GITHUB_ENV
+      run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
     - name: test again
       run: echo $DOCKERPATH
     - name: test

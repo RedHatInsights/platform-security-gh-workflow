@@ -16,7 +16,7 @@
 name: ConsoleDot Platform Security Scan
 
 env: 
-  DOCKERFILE_PATH: './test_good/test_bad'
+  DOCKERFILE_PATH: './test_bad'
 
 on:
   push:
@@ -29,14 +29,14 @@ jobs:
   Make_variable:
     runs-on: ubuntu-latest
     steps:
-      - name: Get the variable
+      - name: Get the dockerfile path 
         run: |
           echo $DOCKERFILE_PATH > docker_path.txt
           cat docker_path.txt
-      - name: Upload data
+      - name: Upload the dockerfile path
         uses: actions/upload-artifact@v3
         with:
           name: docker-path
-          path: docker_path.txt
+          path: docker-path.txt
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
