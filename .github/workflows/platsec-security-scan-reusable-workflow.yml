@@ -38,6 +38,8 @@ jobs:
       run: sleep 5
     - name: Check out the code
       uses: actions/checkout@v3
+    - name: check it first
+      run: echo $DOCKERPATH
     - name: Download dockerfile path
       uses: actions/download-artifact@v3
       with:
@@ -51,7 +53,7 @@ jobs:
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
       continue-on-error: true
     - name: conditional
-      run: echo "DOCKERPATH=." >> @GITHUB_ENV
+      run: echo "DOCKERPATH=test" >> @GITHUB_ENV
     - name: test again
       run: echo $DOCKERPATH
       continue-on-error: true
