@@ -31,8 +31,8 @@ jobs:
     steps:
       - name: Get the dockerfile path 
         run: |
-          echo $DOCKERFILE_PATH > docker_path.txt
-          cat docker_path.txt
+          echo $DOCKERFILE_PATH > docker-path.txt
+          cat docker-path.txt
       - name: Upload the dockerfile path
         uses: actions/upload-artifact@v3
         with:
