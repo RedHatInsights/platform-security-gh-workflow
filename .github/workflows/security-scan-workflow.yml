@@ -28,17 +28,8 @@ on:
 jobs:
   Make_variable:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Set Variable
-        run: echo "set-env name=DOCKERPATH::."
-
-      - name: Upload Variable
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-vars
-          path: ${{ runner.temp }}/DOCKERPATH.txt
-
-
+      - name: Get the variable
+        run: echo $DOCKERFILE_PATH
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml

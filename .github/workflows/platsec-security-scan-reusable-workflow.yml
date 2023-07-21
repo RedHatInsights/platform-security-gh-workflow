@@ -33,13 +33,6 @@ jobs:
       contents: read    # for actions/checkout to fetch code
     runs-on: ubuntu-latest
     steps:
-    - name: Download Variable
-      uses: actions/download-artifact@v3
-      with:
-        name: my-vars
-
-    - name: Read variable
-      run: echo "VARIABLE is ${{ steps.download.outputs.artifacts_path }}/DOCKERPATH.txt"
     - name: Check out the code
       uses: actions/checkout@v3
     - name: Build the Docker image
