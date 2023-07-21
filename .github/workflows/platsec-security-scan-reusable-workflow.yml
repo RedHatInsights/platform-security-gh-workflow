@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Just wait
-      run: sleep 15
+      run: sleep 5
     - name: Check out the code
       uses: actions/checkout@v3
     - name: Download data
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Just Wait
-      run: sleep 10
+      run: sleep 5
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Download data

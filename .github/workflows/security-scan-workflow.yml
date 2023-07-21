@@ -16,7 +16,7 @@
 name: ConsoleDot Platform Security Scan
 
 env: 
-  DOCKERFILE_PATH: './test_bad'
+  DOCKERFILE_PATH: './test_good/test_bad'
 
 on:
   push:
