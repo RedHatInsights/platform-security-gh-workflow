@@ -48,6 +48,8 @@ jobs:
     - name: test
       run: cat docker-path.txt
       continue-on-error: true
+    - name: testing assigning
+      run: echo "DOCKERPATH=$foobar" >> $GITHUB_ENV
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
