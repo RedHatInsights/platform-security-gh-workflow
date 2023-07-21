@@ -47,7 +47,7 @@ jobs:
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+      run: docker build $DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
       run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
     - name: Scan image for Vulnerabilities
