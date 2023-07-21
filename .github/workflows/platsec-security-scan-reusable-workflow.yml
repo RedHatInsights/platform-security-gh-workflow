@@ -38,7 +38,7 @@ jobs:
     - name: Download data
       uses: actions/download-artifact@v3
       with:
-        name: docker_path
+        name: docker_path.txt
     - name: test
       run: cat docker_path.txt
     - name: Build the Docker image
