@@ -41,6 +41,11 @@ jobs:
         name: docker-path
     - name: test
       run: cat docker_path.txt
+    - name: Assign
+      id: set_variable
+      run: echo "DOCKERPATH=$(cat docker_path.txt)"
+    - name: test again
+      run: echo $DOCKERPATH
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
