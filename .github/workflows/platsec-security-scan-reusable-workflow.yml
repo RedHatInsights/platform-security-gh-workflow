@@ -42,13 +42,17 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: docker-path
+      continue-on-error: true
     - name: test
       run: cat docker-path.txt
+      continue-on-error: true
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
+      continue-on-error: true
     - name: test again
       run: echo $DOCKERPATH
+      continue-on-error: true
     - name: Build the Docker image
       run: docker build $DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
