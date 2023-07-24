@@ -52,7 +52,8 @@ jobs:
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
-      if: ${{ success() }}
+    - name: Quick Test
+      run: cat docker-path.txt
     - name: Assign if fail
       run: echo "DOCKERPATH=./test2" >> $GITHUB_ENV
       if: ${{ failure() }}
