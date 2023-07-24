@@ -44,7 +44,12 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: docker-path
-      continue-on-error: true
+    - name: Do it with default value
+      run: |
+        echo "DOCKERPATH=./test2" >> $GITHUB_ENV
+        echo $DOCKERPATH
+        docker build $DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
+      if: ${{ failure() }}
     - name: test
       run: cat docker-path.txt
       if: ${{ success() }}
