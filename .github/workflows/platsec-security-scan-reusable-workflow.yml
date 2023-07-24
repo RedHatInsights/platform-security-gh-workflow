@@ -63,10 +63,6 @@ jobs:
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
     - name: Quick Test
       run: cat docker-path.txt
-    - name: Assign if fail
-      run: echo "DOCKERPATH=./test2" >> $GITHUB_ENV
-      if: ${{ failure() }}
-      continue-on-error: true
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
@@ -109,6 +105,12 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: docker-path
+    - name: Run with default path
+      run: |
+        docker build $DEFAULT_DOCKER_PATH --file Dockerfile --tag localbuild/testimage:latest
+        curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
+        syft -v localbuild/testimage:latest > syft-sbom-results.txt
+      if: ${{ failure() }}
     - name: test
       run: cat docker-path.txt
     - name: Assign
@@ -129,3 +131,4 @@ jobs:
       with:
         name: syft-sbom-artifacts
         path: syft-sbom-results.txt
+      if: ${{ failure() }}
