@@ -19,10 +19,13 @@ env:
   GRYPE_VERSION: "v0.62.3"
   SYFT_VERSION: "v0.83.0"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
-  DOCKERFILE_PATH: '.'
 
 on:
   workflow_call:
+    inputs:
+      dockerfile_path:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -36,9 +39,9 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
     - name: Checking
-      run: echo $DOCKERFILE_PATH
+      run: echo ${{ inputs.dockerfile_path }}
     - name: Build the Docker image
-      run: docker build $DOCKERFILE_PATH --file Dockerfile --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.dockerfile_path }} --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
       run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
     - name: Scan image for Vulnerabilities
@@ -70,7 +73,7 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build $DOCKERFILE_PATH --file Dockerfile --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.dockerfile_path }} --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Syft
       run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Scan the image and generate SBOM

@@ -26,4 +26,4 @@ jobs:
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
     with: 
-      DOCKERFILE_PATH: './test'
+      dockerfile_path: './test'
