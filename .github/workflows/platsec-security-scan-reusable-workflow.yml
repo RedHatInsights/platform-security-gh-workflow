@@ -54,6 +54,7 @@ jobs:
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
     - name: Quick Test
       run: cat docker-path.txt
+      continue-on-error: true
     - name: Assign if fail
       run: echo "DOCKERPATH=./test2" >> $GITHUB_ENV
       if: ${{ failure() }}
