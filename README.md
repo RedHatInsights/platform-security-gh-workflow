@@ -11,7 +11,7 @@ The `Platform Security Workflow` uses the free and open-source security tools An
 
 ## Getting Started
 
-Getting started with the `Platform Security Github Workflow` is as easy as copying the `security-workflow-template.yml` file from this repository and adding it to your GitHub repository's `.github/workflows` directory. Doing so will enable security scanning (via our reusable GitHub workflow) anytime a Pull-Request is opened or merged.
+Getting started with the `Platform Security Github Workflow` is as easy as copying the [security-workflow-template.yml](https://github.com/RedHatInsights/platform-security-gh-workflow/blob/master/security-workflow-template.yml) file from this repository and adding it to your GitHub repository's `.github/workflows` directory. Doing so will enable security scanning (via our reusable GitHub workflow) anytime a Pull-Request is opened or merged.
 
 After the workflow has run, you can download artifacts of the results from the associated `workflow run`. The artifacts will contain the following files:
 
