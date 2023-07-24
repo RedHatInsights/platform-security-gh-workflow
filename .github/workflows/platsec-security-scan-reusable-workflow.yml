@@ -49,6 +49,10 @@ jobs:
       run: |
         echo $DEFAULT_DOCKER_PATH
         docker build $DEFAULT_DOCKER_PATH --file Dockerfile --tag localbuild/testimage:latest
+        curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
+        mkdir $GRYPE_ARTIFACTS_DIR
+        grype -v -o table localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full.txt
+        grype -v -o table --only-fixed localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable.txt
       if: ${{ failure() }}
     - name: test
       run: cat docker-path.txt
