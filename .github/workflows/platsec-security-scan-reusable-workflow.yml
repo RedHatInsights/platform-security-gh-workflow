@@ -24,7 +24,7 @@ on:
   workflow_call:
     inputs:
       dockerfile_path:
-        required: true
+        required: false
         type: string
 
 permissions:
@@ -39,7 +39,10 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
     - name: Checking
-      run: echo ${{ inputs.dockerfile_path }}
+      run: |
+        if [ -z "${{ inputs.dockerfile_path }}"]; then
+        ${{ inputs.dockerfile_path }}='.'
+        fi
     - name: Build the Docker image
       run: docker build ${{ inputs.dockerfile_path }} --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
