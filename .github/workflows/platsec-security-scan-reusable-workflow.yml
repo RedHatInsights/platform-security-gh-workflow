@@ -19,7 +19,7 @@ env:
   GRYPE_VERSION: "v0.62.3"
   SYFT_VERSION: "v0.83.0"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
-  DEFAULT_DOCKER: "."
+  DEFAULT_DOCKER: "./test"
 
 on:
   workflow_call:
@@ -53,6 +53,10 @@ jobs:
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
+    - name: handle another failure
+      if: ${{ failure() }}
+      run: |
+        echo "yet another failuer"
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
