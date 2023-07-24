@@ -26,17 +26,17 @@ on:
     branches: [ "main", "master", "security-compliance" ]
 
 jobs:
-  Make_variable:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get the dockerfile path 
-        run: |
-          echo $DOCKERFILE_PATH > docker-path.txt
-          cat docker-path.txt
-      - name: Upload the dockerfile path
-        uses: actions/upload-artifact@v3
-        with:
-          name: docker-path
-          path: docker-path.txt
+  #Make_variable:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Get the dockerfile path 
+  #      run: |
+  #        echo $DOCKERFILE_PATH > docker-path.txt
+  #        cat docker-path.txt
+  #    - name: Upload the dockerfile path
+  #      uses: actions/upload-artifact@v3
+  #      with:
+  #        name: docker-path
+  #        path: docker-path.txt
   PlatSec-Security-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml

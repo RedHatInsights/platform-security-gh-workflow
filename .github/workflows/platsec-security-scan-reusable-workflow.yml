@@ -19,7 +19,7 @@ env:
   GRYPE_VERSION: "v0.62.3"
   SYFT_VERSION: "v0.83.0"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
-  DOCKERPATH: "./test_bad"
+  DEFAULT_DOCKER: "."
 
 on:
   workflow_call:
@@ -39,24 +39,22 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
     - name: check it first
-      run: echo $DOCKERPATH
+      run: echo $DEFAULT_DOCKER
     - name: Download dockerfile path
       uses: actions/download-artifact@v3
       with:
         name: docker-path
-      continue-on-error: true
+    - name: Handle artifact failure
+      if: ${{ failure() }}
+      run: |
+        echo "Job is failed"
     - name: test
       run: cat docker-path.txt
-      continue-on-error: true
-    - name: testing assigning
-      run: echo "DOCKERPATH=$foobar" >> $GITHUB_ENV
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
-      continue-on-error: true
     - name: test again
       run: echo $DOCKERPATH
-      continue-on-error: true
     - name: Build the Docker image
       run: docker build $DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
