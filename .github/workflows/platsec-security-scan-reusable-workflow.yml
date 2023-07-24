@@ -47,10 +47,12 @@ jobs:
     - name: test
       run: cat docker-path.txt
       if: ${{ success() }}
+      continue-on-error: true
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
       if: ${{ success() }}
+      continue-on-error: true
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
