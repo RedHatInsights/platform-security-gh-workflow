@@ -57,9 +57,9 @@ jobs:
     - name: Assign if fail
       run: echo "DOCKERPATH=./test2" >> $GITHUB_ENV
       if: ${{ failure() }}
+      continue-on-error: true
     - name: test again
       run: echo $DOCKERPATH
-      if: ${{ success() }}
     - name: Build the Docker image
       run: docker build $DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
