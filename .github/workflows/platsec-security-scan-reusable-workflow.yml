@@ -39,7 +39,7 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
     - name: check it first
-      run: echo $DEFAULT_DOCKER
+      run: echo $DOCKERPATH
     - name: Download dockerfile path
       uses: actions/download-artifact@v3
       with:
@@ -54,6 +54,8 @@ jobs:
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
       if: ${{ success() }}
       continue-on-error: true
+    - name: Assign if fail
+      run: echo "DOCKERPATH=./test2" >> $GITHUB_ENB
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
