@@ -19,7 +19,7 @@ env:
   GRYPE_VERSION: "v0.62.3"
   SYFT_VERSION: "v0.83.0"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
-  DEFAULT_DOCKER: "./test"
+  DOCKERPATH: "./test"
 
 on:
   workflow_call:
