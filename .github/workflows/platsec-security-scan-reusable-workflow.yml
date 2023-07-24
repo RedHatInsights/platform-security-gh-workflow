@@ -19,8 +19,8 @@ env:
   GRYPE_VERSION: "v0.62.3"
   SYFT_VERSION: "v0.83.0"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
-  DOCKERPATH: "./test"
-  DEFAULT_DOCKER_PATH: "."
+  DOCKERPATH: ""
+  DEFAULT_DOCKERPATH: "."
 
 on:
   workflow_call:
@@ -39,25 +39,19 @@ jobs:
       run: sleep 5
     - name: Check out the code
       uses: actions/checkout@v3
-    - name: check it first
-      run: echo $DOCKERPATH
     - name: Download dockerfile path
       uses: actions/download-artifact@v3
       with:
         name: docker-path
     - name: Do it with default value
       run: |
-        echo $DEFAULT_DOCKER_PATH
-        docker build $DEFAULT_DOCKER_PATH --file Dockerfile --tag localbuild/testimage:latest
+        echo $DEFAULT_DOCKERPATH
+        docker build $DEFAULT_DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
         curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
         mkdir $GRYPE_ARTIFACTS_DIR
         grype -v -o table localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full.txt
         grype -v -o table --only-fixed localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable.txt
       if: ${{ failure() }}
-    - name: test
-      run: cat docker-path.txt
-      if: ${{ success() }}
-      continue-on-error: true
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
@@ -107,19 +101,13 @@ jobs:
         name: docker-path
     - name: Run with default path
       run: |
-        docker build $DEFAULT_DOCKER_PATH --file Dockerfile --tag localbuild/testimage:latest
+        docker build $DEFAULT_DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
         curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
         syft -v localbuild/testimage:latest > syft-sbom-results.txt
       if: ${{ failure() }}
-    - name: test
-      run: cat docker-path.txt
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
-    - name: test again
-      run: echo $DOCKERPATH
-    - name: test
-      run: cat docker-path.txt
     - name: Build the Docker image
       run: docker build $DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Syft
