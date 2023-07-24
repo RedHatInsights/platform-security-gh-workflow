@@ -83,6 +83,7 @@ jobs:
       with:
         name: grype-vuln-artifacts
         path: $GRYPE_ARTIFACTS_DIR
+      if: ${{ failure() }}
     - name: Grade Container Image (Pass or Fail)
       uses: anchore/scan-action@4be3c24559b430723e51858969965e163b196957
       id: scan
@@ -93,6 +94,7 @@ jobs:
         fail-build: true
         severity-cutoff: high
         output-format: table
+      if: ${{ failure() }}
 
   Anchore-Syft-SBOM-Scan:
     permissions:
