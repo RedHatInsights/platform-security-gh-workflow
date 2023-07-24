@@ -44,19 +44,13 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: docker-path
-    - name: Handle artifact failure
-      if: ${{ failure() }}
-      run: |
-        echo "Job is failed"
     - name: test
       run: cat docker-path.txt
+      if: ${{ success() }}
     - name: Assign
       id: set_variable
       run: echo "DOCKERPATH=$(cat docker-path.txt)" >> $GITHUB_ENV
-    - name: handle another failure
-      if: ${{ failure() }}
-      run: |
-        echo "yet another failuer"
+      if: ${{ success() }}
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
