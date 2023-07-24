@@ -56,6 +56,7 @@ jobs:
       continue-on-error: true
     - name: Assign if fail
       run: echo "DOCKERPATH=./test2" >> $GITHUB_ENV
+      if: ${{ failure() }}
     - name: test again
       run: echo $DOCKERPATH
     - name: Build the Docker image
