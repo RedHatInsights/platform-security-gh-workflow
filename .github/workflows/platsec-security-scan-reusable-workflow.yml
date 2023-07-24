@@ -20,6 +20,7 @@ env:
   SYFT_VERSION: "v0.83.0"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
   DOCKERPATH: "./test"
+  DEFAULT_DOCKER_PATH: "./test2"
 
 on:
   workflow_call:
@@ -46,9 +47,8 @@ jobs:
         name: docker-path
     - name: Do it with default value
       run: |
-        echo "DOCKERPATH=./test2" >> $GITHUB_ENV
-        echo $DOCKERPATH
-        docker build $DOCKERPATH --file Dockerfile --tag localbuild/testimage:latest
+        echo $DEFAULT_DOCKER_PATH
+        docker build $DEFAULT_DOCKER_PATH --file Dockerfile --tag localbuild/testimage:latest
       if: ${{ failure() }}
     - name: test
       run: cat docker-path.txt
