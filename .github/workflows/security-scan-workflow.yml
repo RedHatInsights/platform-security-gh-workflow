@@ -34,6 +34,5 @@ jobs:
     # the defaults of root '.' for the path and 'Dockerfile' for the
     # Dockerfile name.
     #with:
-    #  dockerfile_path: 'THE DIRECTORY THE DOCKERFILE IS IN'
-    #  dockerfile_name: 'THE NAME OF THE DOCKERFILE'
-    
+    #  dockerfile_path: 'THE DIRECTORY THE DOCKERFILE IS IN' #example dockerfile_path: './test'
+    #  dockerfile_name: 'THE NAME OF THE DOCKERFILE' #example dockerfile_name: 'dockerfile'
