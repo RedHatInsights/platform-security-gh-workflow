@@ -44,7 +44,7 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
+      run: docker build -f ${{ inputs.dockerfile_path }} --tag localbuild/testimage:latest
     - name: Install Anchore Grype
       run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
     - name: Scan image for Vulnerabilities
