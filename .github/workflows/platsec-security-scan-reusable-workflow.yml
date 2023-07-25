@@ -76,7 +76,7 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Syft
       run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Scan the image and generate SBOM
