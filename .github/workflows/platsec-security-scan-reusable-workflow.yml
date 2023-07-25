@@ -24,7 +24,7 @@ on:
   workflow_call:
     inputs:
       dockerfile_path:
-        required: false
+        required: true
         type: string
 
 permissions:
@@ -38,10 +38,8 @@ jobs:
     steps:
     - name: Check out the code
       uses: actions/checkout@v3
-    - name: Dockerfile Path Setup
-      run: dockerfile_path='${{ inputs.dockerfile_path }}' && echo $dockerfile_path && build_path=${$dockerfile_path:-'.'}
     - name: Build the Docker image
-      run: docker build $build_path --file Dockerfile --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.dockerfile_path }} --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
       run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
     - name: Scan image for Vulnerabilities
@@ -72,10 +70,8 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3
-    - name: Dockerfile Path Setup
-      run: dockerfile_path='${{ inputs.dockerfile_path }}' && build_path=${$dockerfile_path:-'.'}
     - name: Build the Docker image
-      run: docker build $build_path --file Dockerfile --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.dockerfile_path }} --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Syft
       run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Scan the image and generate SBOM
