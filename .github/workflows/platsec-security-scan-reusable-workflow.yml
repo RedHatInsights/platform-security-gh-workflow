@@ -39,7 +39,7 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
     - name: Dockerfile Path Setup
-      run: dockerfile_path='${{ inputs.dockerfile_path }}'&& build_path=${$dockerfile_path:-'.'}
+      run: dockerfile_path='${{ inputs.dockerfile_path }}' && echo $dockefile_path && build_path=${$dockerfile_path:-'.'}
     - name: Build the Docker image
       run: docker build $build_path --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Grype
@@ -73,7 +73,7 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Dockerfile Path Setup
-      run: dockerfile_path='${{ inputs.dockerfile_path }}'&& build_path=${$dockerfile_path:-'.'}
+      run: dockerfile_path='${{ inputs.dockerfile_path }}' && build_path=${$dockerfile_path:-'.'}
     - name: Build the Docker image
       run: docker build $build_path --file Dockerfile --tag localbuild/testimage:latest
     - name: Install Anchore Syft
