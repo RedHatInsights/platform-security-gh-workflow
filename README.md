@@ -40,7 +40,7 @@ The `security-workflow-template.yml` file is pre-configured to use the reusable 
 Don't worry! The `security-workflow-template.yml` file that can be copied and pasted into the repository's `.github\workflows` directory can be modified. Look at the end of the `security-workflow-template.yml` file and there is a section that is commented out. Uncomment the section and change it to the values that are needed.
 
 ## What if I have multiple dockerfiles that I want to scan?
-Super Easy! Just copy the `security-workflow-template.yml` file to your repositories `.github\workflows` directory and name it a different name and modify the custom settings at the bottom. There is no limit on how many a repo can have!
+Super Easy! Just copy the `security-workflow-template.yml` file to your repository's `.github\workflows` directory and name it a different name and modify the custom settings at the bottom. There is no limit on how many a repo can have!
 
 ## Troubleshooting
 
