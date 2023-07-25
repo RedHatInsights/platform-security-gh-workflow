@@ -3,6 +3,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# The default values used in the docker build commands are the root
+# directory '.' and the dockerfile name of 'Dockerfile'. If there is 
+# a need to change these do so in your local workflow template and
+# change them there.
+
 # This workflow checks out code, builds an image, performs a container image
 # vulnerability scan with Anchore's Grype tool, and generates an
 # SBOM via Anchore's Syft tool
@@ -22,6 +27,17 @@ env:
 
 on:
   workflow_call:
+    inputs:
+      dockerfile_path: 
+        description: 'The path of the dockerfile to be scanned.'
+        default: '.'
+        required: false
+        type: string
+      dockerfile_name:
+        description: 'The filename of the dockerfile to be scanned.'
+        default: 'Dockerfile'
+        required: false
+        type: string
   
 
 permissions:
@@ -36,7 +52,7 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Grype
       run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
     - name: Scan image for Vulnerabilities
@@ -68,7 +84,7 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Syft
       run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Scan the image and generate SBOM

@@ -3,6 +3,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# The default values used in the docker build commands are the root
+# directory '.' and the dockerfile name of 'Dockerfile'. If there is 
+# a need to change these do so in your local workflow template (this file) and
+# change them there. HINT: Look at the bottom of this file.
+
 # This workflow checks out code, builds an image, performs a container image
 # vulnerability scan with Anchore's Grype tool, and generates an
 # SBOM via Anchore's Syft tool
@@ -25,3 +30,9 @@ on:
 jobs:
   PlatSec-Security-Workflow:
     uses: RedHatInsights/platform-security-gh-workflow/.github/workflows/platsec-security-scan-reusable-workflow.yml@master
+    # Uncomment the 3 lines below if you are using something other than the
+    # the defaults of root '.' for the path and 'Dockerfile' for the
+    # Dockerfile name.
+    # with:
+    #  dockerfile_path: 'THE DIRECTORY THE DOCKERFILE IS IN' #example dockerfile_path: './test'
+    #  dockerfile_name: 'THE NAME OF THE DOCKERFILE' #example dockerfile_name: 'dockerfile'
