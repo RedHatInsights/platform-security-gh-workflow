@@ -27,3 +27,4 @@ jobs:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
     with: 
       dockerfile_path: '.'
+      dockerfile_name: 'Dockerfile'

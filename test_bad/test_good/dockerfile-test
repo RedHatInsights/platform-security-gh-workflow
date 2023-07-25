@@ -1,6 +1,6 @@
 # This is a mock Dockerfile for testing ".github/workflows/platsec-security-workflow.yml"
 
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.6
 
 WORKDIR /usr/src/app
 
