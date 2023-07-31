@@ -28,17 +28,14 @@ on:
     branches: [ "main", "master", "security-compliance" ]
 
 jobs:
-  Default-PlatSec-Workflow:
+  Default_Test-PlatSec-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
-  Custom_Location_Name-PlatSec-Workflow:
+  Inputs_Test-PlatSec-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
     with:
+      base_image_build: true
+      base_dockerfile_path: './test'
+      base_dockerfile_name: 'Dockerfile.base'
+      build_arg: '--build-arg BASE_IMAGE="localbuild/baseimage:latest"'
       dockerfile_path: './test'
-      dockerfile_name: 'dockerfile.test'
-
-    # Uncomment the 3 lines below if you are using something other than the
-    # the defaults of root '.' for the path and 'Dockerfile' for the
-    # Dockerfile name.
-    # with:
-    #  dockerfile_path: 'THE DIRECTORY THE DOCKERFILE IS IN' #example dockerfile_path: './test'
-    #  dockerfile_name: 'THE NAME OF THE DOCKERFILE' #example dockerfile_name: 'dockerfile'
+      dockerfile_name: 'dockerfile.main'
