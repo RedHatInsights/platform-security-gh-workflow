@@ -46,7 +46,7 @@ on:
         type: string
       # Support for Base_Image Builds
       base_image_build:
-        description: ' '
+        description: 'Determines whether a Base_Image need to be created.'
         default: false
         required: false
         type: boolean
