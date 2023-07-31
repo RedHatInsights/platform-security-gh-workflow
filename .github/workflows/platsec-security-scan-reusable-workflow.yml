@@ -21,8 +21,8 @@
 name: ConsoleDot Platform Security Scan - Reusable Workflow 
 
 env: 
-  GRYPE_VERSION: "v0.62.3"
-  SYFT_VERSION: "v0.83.0"
+  GRYPE_VERSION: "v0.65.0"
+  SYFT_VERSION: "v0.86.1"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
 
 on:
@@ -90,7 +90,7 @@ jobs:
         name: grype-vuln-artifacts
         path: $GRYPE_ARTIFACTS_DIR
     - name: Grade Container Image (Pass or Fail)
-      uses: anchore/scan-action@4be3c24559b430723e51858969965e163b196957
+      uses: anchore/scan-action@24fd7c9060f3c96848dd1929fac8d796fb5ae4b4
       id: scan
       with:
         image: "localbuild/testimage:latest"
