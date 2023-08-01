@@ -40,7 +40,7 @@ If your `Dockerfile` is named in a standard fashion and is present in the `root`
 | ----------- | :-----------: | ----------- |
 | `dockerfile_path` | `String` | Path to your Dockerfile within the GitHub repo. |
 | `dockerfile_name` | `String`| Filename of your Dockerfile. |
-| `base_image_build` | `Boolean` | Tells the workflow wheather a preliminary Dockerfile should be built before the primary Dockerfile is built. |
+| `base_image_build` | `Boolean` | Tells the workflow whether a preliminary Dockerfile should be built before the primary Dockerfile is built. |
 | `base_dockerfile_path` | `String` | Path to your preliminary Dockerfile within the GitHub repo. |
 | `base_dockerfile_name` | `String` | Filename of your preliminary Dockerfile. |
 | `build_arg` | `String` | A Build Argument to be supplied at build-time. |

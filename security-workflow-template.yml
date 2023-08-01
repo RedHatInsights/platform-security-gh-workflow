@@ -32,7 +32,7 @@ jobs:
     uses: RedHatInsights/platform-security-gh-workflow/.github/workflows/platsec-security-scan-reusable-workflow.yml@master
     ## The optional parameters below are used if you are using something other than the
     ## the defaults of root '.' for the path and 'Dockerfile' for the Dockerfile name.
-    ## Additonaly, if you have a Dockerfile you use as your BASE_IMG or you need to
+    ## Additionally, if you have a Dockerfile you use as your BASE_IMG or you need to
     ## use '--build-arg', those can be define below as well.
 
     # with:
