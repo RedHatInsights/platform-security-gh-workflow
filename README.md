@@ -32,12 +32,35 @@ Additionally, if the container image built and scanned contains any fixable vuln
 * Fork pull request workflows from outside collaborators
    * Require approval for first-time contributors.
 
+## Inputs (Optional Paramaters)
+
+If your `Dockerfile` is named in a standard fashion and is present in the `root` directory of your GitHub repo, then you can use the [security-workflow-template.yml](https://github.com/RedHatInsights/platform-security-gh-workflow/blob/master/security-workflow-template.yml) as it is. However, if your setup falls outside the defaults, you can use the following inputs to tailor the workflow to work for you. 
+
+| Inputs      | Type | Description |
+| ----------- | :-----------: | ----------- |
+| `dockerfile_path` | `String` | Path to your Dockerfile within the GitHub repo. |
+| `dockerfile_name` | `String`| Filename of your Dockerfile. |
+| `base_image_build` | `Boolean` | Tells the workflow wheather a preliminary Dockerfile should be built before the primary Dockerfile is built. |
+| `base_dockerfile_path` | `String` | Path to your preliminary Dockerfile within the GitHub repo. |
+| `base_dockerfile_name` | `String` | Filename of your preliminary Dockerfile. |
+| `build_arg` | `String` | A Build Argument to be supplied at build-time. |
+
+#### Inputs (Example)
+```
+jobs:
+  PlatSec-Security-Workflow:
+    uses: RedHatInsights/platform-security-gh-workflow/.github/workflows/platsec-security-scan-reusable-workflow.yml@master
+    with:
+      base_image_build: true
+      base_dockerfile_path: './test'
+      base_dockerfile_name: 'Dockerfile.base'
+      build_arg: '--build-arg BASE_IMAGE="localbuild/baseimage:latest"'
+      dockerfile_path: './test'
+      dockerfile_name: 'Dockerfile.main'
+```
 
 ## What about updates?
 The `security-workflow-template.yml` file is pre-configured to use the reusable GitHub workflow in the `main/master` branch of this repository, so any updates to the scanners or functionality done by the Platform-Security Team will be automatically inherited. 
-
-## What if my Dockerfile is in a different location and/or is named different?
-Don't worry! The `security-workflow-template.yml` file that can be copied and pasted into the repository's `.github\workflows` directory can be modified. Look at the end of the `security-workflow-template.yml` file and there is a section that is commented out. Uncomment the section and change it to the values that are needed.
 
 ## What if I have multiple dockerfiles that I want to scan?
 Super Easy! Just copy the `security-workflow-template.yml` file to your repository's `.github\workflows` directory and name it a different name and modify the custom settings at the bottom. There is no limit on how many a repo can have!
