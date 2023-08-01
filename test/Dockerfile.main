@@ -1,0 +1,9 @@
+# This is a mock Dockerfile for testing ".github/workflows/platsec-security-workflow.yml"
+# Dockerfile.base > Dockerfile.main Testing
+
+ARG BASE_IMAGE=
+FROM $BASE_IMAGE
+
+WORKDIR /usr/src/app
+
+CMD ["echo", "Hello security!"]
