@@ -23,7 +23,6 @@ name: ConsoleDot Platform Security Scan - Reusable Workflow
 env: 
   GRYPE_VERSION: "v0.63.0" #"v0.65.0"
   SYFT_VERSION: "v0.86.1"
-  SCAN_ACTION_VERSION: "v3.3.6"   # https://github.com/anchore/scan-action/
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
 
 on:
@@ -79,7 +78,7 @@ jobs:
     - name: Build the Docker image
       run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Grype
-      uses: anchore/scan-action/download-grype@ ${{ env.SCAN_ACTION_VERSION }}
+      uses: anchore/scan-action/download-grype@v3.3.6
       with:
         grype-version: ${{env.GRYPE_VERSION}}
     - name: Scan image for Vulnerabilities
@@ -93,8 +92,7 @@ jobs:
         name: grype-vuln-artifacts
         path: $GRYPE_ARTIFACTS_DIR
     - name: Grade Container Image (Pass or Fail)
-      uses: anchore/scan-action@ ${{ env.SCAN_ACTION_VERSION }}
-      # id: scan
+      uses: anchore/scan-action@v3.3.6
       with:
         image: "localbuild/testimage:latest"
         only-fixed: true
