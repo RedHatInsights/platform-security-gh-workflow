@@ -21,7 +21,7 @@
 name: ConsoleDot Platform Security Scan - Reusable Workflow 
 
 env: 
-  GRYPE_VERSION: "v0.63.0" #"v0.65.0"
+  GRYPE_VERSION: "v0.65.0"
   SYFT_VERSION: "v0.86.1"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
 
