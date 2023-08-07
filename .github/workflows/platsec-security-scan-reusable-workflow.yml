@@ -78,7 +78,9 @@ jobs:
     - name: Build the Docker image
       run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Grype
-      run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
+      uses: anchore/scan-action/download-grype@v3.3.6
+      with:
+        grype-version: ${{env.GRYPE_VERSION}}
     - name: Scan image for Vulnerabilities
       run: |
         mkdir $GRYPE_ARTIFACTS_DIR
@@ -90,11 +92,9 @@ jobs:
         name: grype-vuln-artifacts
         path: $GRYPE_ARTIFACTS_DIR
     - name: Grade Container Image (Pass or Fail)
-      uses: anchore/scan-action@24fd7c9060f3c96848dd1929fac8d796fb5ae4b4
-      id: scan
+      uses: anchore/scan-action@v3.3.6
       with:
         image: "localbuild/testimage:latest"
-        grype-version: ${{env.GRYPE_VERSION}}
         only-fixed: true
         fail-build: true
         severity-cutoff: high
