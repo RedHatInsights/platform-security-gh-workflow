@@ -115,9 +115,9 @@ jobs:
     - name: Install Anchore Syft
       run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Scan the image and generate SBOM
-      run: syft -v localbuild/testimage:latest > syft-sbom-results.txt
+      run: syft -v localbuild/testimage:latest > syft-sbom-results-${{ inputs.dockerfile_name }}.txt
     - name: Provide Syft SBOM Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: syft-sbom-artifacts
-        path: syft-sbom-results.txt
+        path: syft-sbom-results-${{ inputs.dockerfile_name }}.txt
