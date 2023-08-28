@@ -84,8 +84,8 @@ jobs:
     - name: Scan image for Vulnerabilities
       run: |
         mkdir $GRYPE_ARTIFACTS_DIR
-        grype -v -o table localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full.txt
-        grype -v -o table --only-fixed localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable.txt
+        grype -v -o table localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full-${{ inputs.dockerfile_name }}.txt
+        grype -v -o table --only-fixed localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable-${{ inputs.dockerfile_name }}.txt
     - name: Provide Grype Vulnerability Artifacts
       uses: actions/upload-artifact@v3
       with:
