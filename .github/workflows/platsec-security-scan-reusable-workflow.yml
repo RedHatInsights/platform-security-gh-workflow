@@ -29,8 +29,8 @@ on:
   workflow_call:
     inputs:
       # Defaults
-      dockerbuild_path:
-        description: 'The ath where the docker build needs to happen (default: '.')'
+      dockerbuild_path: 
+        description: 'The path where the docker build needs to happen (default: '.')'
         default: '.'
         required: false
         type: string
