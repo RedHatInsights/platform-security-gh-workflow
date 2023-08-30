@@ -30,7 +30,7 @@ on:
     inputs:
       # Defaults
       dockerbuild_path: 
-        description: 'The path where the docker build needs to happen (default: '.')'
+        description: 'The path where the docker build needs to happen.'
         default: '.'
         required: false
         type: string
