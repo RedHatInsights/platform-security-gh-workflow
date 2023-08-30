@@ -36,9 +36,11 @@ jobs:
     ## use '--build-arg', those can be define below as well.
 
     # with:
+    #   dockerbuild_path: './buildtest'
     #   dockerfile_path: './test'
     #   dockerfile_name: 'Dockerfile.main'
     #   base_image_build: true
+    #   base_dockerbuild_path: './testbuild.base'
     #   base_dockerfile_path: './test'
     #   base_dockerfile_name: 'Dockerfile.base'
     #   build_arg: '--build-arg BASE_IMAGE="localbuild/baseimage:latest"'
