@@ -29,6 +29,11 @@ on:
   workflow_call:
     inputs:
       # Defaults
+      dockerbuild_path:
+        description: 'The ath where the docker build needs to happen (default: '.')'
+        default: '.'
+        required: false
+        type: string
       dockerfile_path: 
         description: 'The path of the dockerfile to be scanned.'
         default: '.'
@@ -50,6 +55,11 @@ on:
         default: false
         required: false
         type: boolean
+      base_dockerbuild_path: 
+        description: 'The path of the base docker build.'
+        default: '.'
+        required: false
+        type: string
       base_dockerfile_path: 
         description: 'The path of the base dockerfile.'
         default: '.'
@@ -74,9 +84,9 @@ jobs:
       uses: actions/checkout@v3
     - name: Build the Base Docker image
       if: ${{ inputs.base_image_build }}
-      run: docker build ${{ inputs.base_dockerfile_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
+      run: docker build ${{ inputs.base_dockerbuild_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
     - name: Build the Docker image
-      run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerbuild_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Grype
       uses: anchore/scan-action/download-grype@v3.3.6
       with:
@@ -109,9 +119,9 @@ jobs:
       uses: actions/checkout@v3
     - name: Build the Base Docker image
       if: ${{ inputs.base_image_build }}
-      run: docker build ${{ inputs.base_dockerfile_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
+      run: docker build ${{ inputs.base_dockerbuild_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
     - name: Build the Docker image
-      run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerfile_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
+      run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerbuild_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Syft
       run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Scan the image and generate SBOM
