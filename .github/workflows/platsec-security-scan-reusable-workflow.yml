@@ -99,7 +99,7 @@ jobs:
     - name: Provide Grype Vulnerability Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: grype-vuln-artifacts
+        name: grype-vuln-artifacts-${{ inputs.dockerfile_name }}
         path: $GRYPE_ARTIFACTS_DIR
     - name: Grade Container Image (Pass or Fail)
       uses: anchore/scan-action@v3.6.4
@@ -129,5 +129,5 @@ jobs:
     - name: Provide Syft SBOM Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: syft-sbom-artifacts
+        name: syft-sbom-artifacts-${{ inputs.dockerfile_name }}
         path: syft-sbom-results-${{ inputs.dockerfile_name }}.txt
