@@ -21,8 +21,8 @@
 name: ConsoleDot Platform Security Scan - Reusable Workflow 
 
 env: 
-  GRYPE_VERSION: "v0.65.0"
-  SYFT_VERSION: "v0.86.1"
+  GRYPE_VERSION: "v0.74.4"
+  SYFT_VERSION: "v0.103.1"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
 
 on:
@@ -81,14 +81,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out the code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Build the Base Docker image
       if: ${{ inputs.base_image_build }}
       run: docker build ${{ inputs.base_dockerbuild_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
     - name: Build the Docker image
       run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerbuild_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Grype
-      uses: anchore/scan-action/download-grype@v3.3.6
+      uses: anchore/scan-action/download-grype@v3.6.4
       with:
         grype-version: ${{env.GRYPE_VERSION}}
     - name: Scan image for Vulnerabilities
@@ -97,12 +97,12 @@ jobs:
         grype -v -o table localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full-${{ inputs.dockerfile_name }}.txt
         grype -v -o table --only-fixed localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable-${{ inputs.dockerfile_name }}.txt
     - name: Provide Grype Vulnerability Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: grype-vuln-artifacts
+        name: grype-vuln-artifacts-${{ inputs.dockerfile_name }}
         path: $GRYPE_ARTIFACTS_DIR
     - name: Grade Container Image (Pass or Fail)
-      uses: anchore/scan-action@v3.3.6
+      uses: anchore/scan-action@v3.6.4
       with:
         image: "localbuild/testimage:latest"
         only-fixed: true
@@ -116,7 +116,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Build the Base Docker image
       if: ${{ inputs.base_image_build }}
       run: docker build ${{ inputs.base_dockerbuild_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
@@ -127,7 +127,7 @@ jobs:
     - name: Scan the image and generate SBOM
       run: syft -v localbuild/testimage:latest > syft-sbom-results-${{ inputs.dockerfile_name }}.txt
     - name: Provide Syft SBOM Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: syft-sbom-artifacts
+        name: syft-sbom-artifacts-${{ inputs.dockerfile_name }}
         path: syft-sbom-results-${{ inputs.dockerfile_name }}.txt
