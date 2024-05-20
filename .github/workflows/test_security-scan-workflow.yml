@@ -42,4 +42,4 @@ jobs:
   Build_Fail_Test-PlatSec-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
     with:
-      fail-build: false
+      fail_on_vulns: false
