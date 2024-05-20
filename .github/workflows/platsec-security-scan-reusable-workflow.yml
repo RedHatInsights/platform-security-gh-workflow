@@ -70,6 +70,21 @@ on:
         default: 'Dockerfile.base'
         required: false
         type: string
+      only_fixed:
+        description: 'Set whether to output only vulnerabilities with fixes.'
+        default: true
+        required: false
+        type: boolean
+      fail_on_vulns:
+        description: 'Set whether the job should fail if vulnerabilities are found. (based on severity_fail_cutoff)'
+        default: true
+        required: false
+        type: boolean
+      severity_fail_cutoff:
+        description: 'Set the severity level at which the job should fail.'
+        default: 'high'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -105,9 +120,9 @@ jobs:
       uses: anchore/scan-action@v3.6.4
       with:
         image: "localbuild/testimage:latest"
-        only-fixed: true
-        fail-build: true
-        severity-cutoff: high
+        only-fixed: ${{ inputs.only_fixed }}
+        fail-build: ${{ inputs.fail_on_vulns }}
+        severity-cutoff: ${{ inputs.severity_fail_cutoff }}
         output-format: table
 
   Anchore-Syft-SBOM-Scan:
