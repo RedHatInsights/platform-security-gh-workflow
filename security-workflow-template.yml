@@ -44,3 +44,6 @@ jobs:
     #   base_dockerfile_path: './test'
     #   base_dockerfile_name: 'Dockerfile.base'
     #   build_arg: '--build-arg BASE_IMAGE="localbuild/baseimage:latest"'
+    #   only_fixed: true
+    #   fail_on_vulns: true
+    #   severity_fail_cutoff: high 
