@@ -46,6 +46,9 @@ If your `Dockerfile` is named in a standard fashion and is present in the `root`
 | `base_dockerfile_path` | `String` | Path to your preliminary Dockerfile within the GitHub repo. |
 | `base_dockerfile_name` | `String` | Filename of your preliminary Dockerfile. |
 | `build_arg` | `String` | A Build Argument to be supplied at build-time. |
+| `only_fixed` | `Boolean` | Set whether to output only vulnerabilities with fixes. |
+| `fail_on_vulns` | `Boolean` | Set whether the job should fail if vulnerabilities are found. *(Based on severity_fail_cutoff)*|
+| `severity_fail_cutoff` | `String` | Set the severity level at which the job should fail. *(negligible, low, medium, high or critical)* |
 
 #### Inputs (Example)
 ```
