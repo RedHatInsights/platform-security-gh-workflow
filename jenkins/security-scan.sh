@@ -2,9 +2,9 @@
 
 set -exv
 
-# IMAGE="app-name"
+IMAGE=$1
 IMAGE_TAG="security-scan"
-# DOCKERFILE_LOCATION="."
+DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
 
 GRYPE_VERSION="v0.74.4"
