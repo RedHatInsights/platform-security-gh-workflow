@@ -1,0 +1,33 @@
+---
+ignore:
+  - vulnerability: GHSA-5xp3-jfq3-5q8x
+    # justification: "https://access.redhat.com/errata/RHSA-2021:4455"
+    package:
+      name: pip
+      version: 9.0.3
+      type: python
+      location: "/usr/lib/python3.6/site-packages/**"
+
+  - vulnerability: GHSA-gpvv-69j7-gwj8
+    # justification: "https://access.redhat.com/errata/RHSA-2020:4432"
+    package:
+      name: pip
+      version: 9.0.3
+      type: python
+      location: "/usr/lib/python3.6/site-packages/**"
+
+  - vulnerability: GHSA-mq26-g339-26xf
+    # justification: "Not affected - https://access.redhat.com/security/cve/cve-2023-5752"
+    package: 
+      name: pip
+      version: 9.0.3
+      type: python
+      location: "/usr/lib/python3.6/site-packages/**"
+
+  - vulnerability: GHSA-r9hx-vwmv-q579
+    # justification: "https://access.redhat.com/errata/RHSA-2023:0835"
+    package:
+      name: setuptools
+      version: 39.2.0
+      type: python
+      location: "/usr/lib/python3.6/site-packages/**"
