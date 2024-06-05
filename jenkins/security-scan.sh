@@ -10,7 +10,7 @@ IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
 GRYPE_VERSION="v0.74.4"
 
 # (Severity Options: negligible, low, medium, high, critical)
-FAIL_ON_SEVERITY="high"
+FAIL_ON_SEVERITY=$3
 
 if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
     echo "QUAY_USER and QUAY_TOKEN must be set"
