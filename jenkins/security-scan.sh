@@ -61,34 +61,34 @@ curl -sSfL https://raw.githubusercontent.com/RedHatInsights/platform-security-gh
     > ${TMP_JOB_DIR}/grype-false-positives.yml
 
 # Create Artifacts Directory
-mkdir -p $WORKSPACE/artifacts/json-output
+mkdir -p $WORKSPACE/artifacts
 
 # Scan Container Image with Syft
 # Output SBOM in Text and JSON Format
 $TMP_JOB_DIR/syft -v -o json "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
-    > $WORKSPACE/artifacts/json-output/sbom-results-${IMAGE}:${IMAGE_TAG}.json
+    > $WORKSPACE/artifacts/sbom-results-${IMAGE}.json
 
 $TMP_JOB_DIR/syft -v -o table "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
-    > $WORKSPACE/artifacts/sbom-results-${IMAGE}:${IMAGE_TAG}.txt
+    > $WORKSPACE/artifacts/sbom-results-${IMAGE}.txt
 
 # Scan Container Image with Grype
 # Output both "Full List" and "Only Fixable List" Vulnerabilities (text and json)
 # Fail on detected defined level of Vulnerability Severity ("Only Fixable List")
 $TMP_JOB_DIR/grype -v -o json "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
-    > $WORKSPACE/artifacts/json-output/vulnerability-results-full-${IMAGE}:${IMAGE_TAG}.json
+    > $WORKSPACE/artifacts/vulnerability-results-full-${IMAGE}.json
 
 $TMP_JOB_DIR/grype -v -o table "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
-    > $WORKSPACE/artifacts/vulnerability-results-full-${IMAGE}:${IMAGE_TAG}.txt
+    > $WORKSPACE/artifacts/vulnerability-results-full-${IMAGE}.txt
 
 $TMP_JOB_DIR/grype -v -o json --only-fixed "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
-    > $WORKSPACE/artifacts/json-output/vulnerability-results-fixable-${IMAGE}:${IMAGE_TAG}.json
+    > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.json
 
 $TMP_JOB_DIR/grype -v -o table --only-fixed --fail-on $FAIL_ON_SEVERITY "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
-    > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}:${IMAGE_TAG}.txt
+    > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.txt
 
 # Pass Jenkins dummy artifacts as it needs
 # an xml output to consider the job a success.
