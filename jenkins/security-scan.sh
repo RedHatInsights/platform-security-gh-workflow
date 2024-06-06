@@ -61,7 +61,7 @@ curl -sSfL https://raw.githubusercontent.com/RedHatInsights/platform-security-gh
     > ${TMP_JOB_DIR}/grype-false-positives.yml
 
 # Create Artifacts Directory
-mkdir -p $WORKSPACE/artifacts
+mkdir -p $WORKSPACE/artifacts/json-output
 
 # Scan Container Image with Syft
 # Output SBOM in Text and JSON Format
