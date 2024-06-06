@@ -125,5 +125,4 @@ To use the Jenkins Job, all you need to do is add the [security-scan-source-temp
 #### Updates
 Similar to the standard GitHub Workflow, we can accommodate feature requests and provide updates on the fly and 
 with full transparency. The `security-scan-source-template.sh` script, which sources the main 
-[security-scan.sh](/jenkins/security-scan.sh) script, allow us to support multiple teams without having to open 
-up multiple PRs acroos multiple repos.
+[security-scan.sh](/jenkins/security-scan.sh) script, allows us to support multiple teams without having to open up multiple PRs across multiple repos.
