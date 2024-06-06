@@ -1,5 +1,16 @@
 # Platform Security GitHub Workflow
 
+### Table of Contents
+- [Getting Started](#getting-started)
+- [Inputs (Optional Paramaters)](#inputs-optional-paramaters) | [Example](#inputs-example)
+- [False Positives](#false-positives)
+- [What about updates?](#what-about-updates)
+- [Multiple Dockerfiles](#what-if-i-have-multiple-dockerfiles-that-i-want-to-scan)
+- [Troubleshooting](#troubleshooting)
+- [Jenkins](#jenkins)
+
+---
+
 This project aims to provide Red Hat ConsoleDot Teams with a way to scan the containers they create in a convenient, automated, and reliable manner within their GitHub repository. The `Platform Security Github Workflow` lets teams get security feedback as they open Pull Requests and fix any vulnerability before committing the code to a repository.
 
 The `Platform Security Workflow` uses the free and open-source security tools Anchore's [Syft](https://github.com/anchore/syft/) and [Grype](https://github.com/anchore/grype/). 
@@ -64,6 +75,14 @@ jobs:
       dockerfile_name: 'Dockerfile.main'
 ```
 
+## False Positives
+If you encounter a False Positive, please reach out to the ConsoleDot Platform Security Team, and we can review and 
+add the false positive to our tracker. Once a false positive is added to the tracker 
+([grype-false-positives.yml](/false_positives/grype-false-positives.yml)), it will no longer show up in your scans.
+
+*NOTE: `grype-false-positives.yml` - The false positive tracking file is used by both the GitHub and the Jenkins 
+versions of the security workflow.*
+
 ## What about updates?
 The `security-workflow-template.yml` file is pre-configured to use the reusable GitHub workflow in the `main/master` branch of this repository, so any updates to the scanners or functionality done by the Platform-Security Team will be automatically inherited. 
 
@@ -90,3 +109,20 @@ registry.redhat.io | Red Hat products | No | Yes | Yes
 registry.connect.redhat.com | Third-party products | No | Yes | Yes
 
 REF: https://access.redhat.com/RegistryAuthentication
+
+## Jenkins
+In the event that an edge case prevents your repo from using the GitHub workflow, we have also created 
+a Bash script that can be run on Jenkins and will provide the same level of support as the standard 
+GitHub Workflow.
+
+To use the Jenkins Job, all you need to do is add the [security-scan-source-template.sh](/jenkins/security-scan-source-template.sh) to your repo and add the (GitHub) `platsec-gh-vulnerability-scan` or 
+(GitLab) `platsec-gl-vulnerability-scan` Jenkins Job to your app's build.yml in App-Interface.
+
+
+- [GitHub - "platsec-gh-vulnerability-scan" | Example](https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/gateway/build.yml?ref_type=heads#L92-95)
+- [GitLab - "platsec-gl-vulnerability-scan" | Example]()
+
+#### Updates
+Similar to the standard GitHub Workflow, we can accommodate feature requests and provide updates on the fly and 
+with full transparency. The `security-scan-source-template.sh` script, which sources the main 
+[security-scan.sh](/jenkins/security-scan.sh) script, allows us to support multiple teams without having to open up multiple PRs across multiple repos.
