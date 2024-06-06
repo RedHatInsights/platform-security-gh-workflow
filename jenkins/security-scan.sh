@@ -7,6 +7,7 @@ IMAGE_TAG="security-scan"
 DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
 
+SYFT_VERSION="v0.103.1"
 GRYPE_VERSION="v0.74.4"
 
 # (Severity Options: negligible, low, medium, high, critical)
@@ -49,25 +50,45 @@ podman save -o "${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" "${IMAGE}:${IMAGE_TAG}"
 # Clean up / Remove Container Image
 podman rmi "${IMAGE}:${IMAGE_TAG}"
 
-# Install Specific Version of Grype - Vulnerability Scanners
+# Install Specific Version of Syft - SBOM Generator
+curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b $TMP_JOB_DIR $SYFT_VERSION
+
+# Install Specific Version of Grype - Vulnerability Scanner
 curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b $TMP_JOB_DIR $GRYPE_VERSION
 
 # Download False Positives File from Platform Security GH Workflow Repo
-curl -sSfL https://raw.githubusercontent.com/RedHatInsights/platform-security-gh-workflow/master/false_positives/grype-false-positives.yml > ${TMP_JOB_DIR}/grype-false-positives.yml
+curl -sSfL https://raw.githubusercontent.com/RedHatInsights/platform-security-gh-workflow/master/false_positives/grype-false-positives.yml \
+    > ${TMP_JOB_DIR}/grype-false-positives.yml
 
 # Create Artifacts Directory
 mkdir -p $WORKSPACE/artifacts
 
+# Scan Container Image with Syft
+# Output SBOM in Text and JSON Format
+$TMP_JOB_DIR/syft -v -o json "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+    > $WORKSPACE/artifacts/json-output/sbom-results-${IMAGE}:${IMAGE_TAG}.json
+
+$TMP_JOB_DIR/syft -v -o table "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+    > $WORKSPACE/artifacts/sbom-results-${IMAGE}:${IMAGE_TAG}.txt
+
 # Scan Container Image with Grype
-# Output both "Full List" and "Only Fixable List" Vulnerabilities
+# Output both "Full List" and "Only Fixable List" Vulnerabilities (text and json)
 # Fail on detected defined level of Vulnerability Severity ("Only Fixable List")
+$TMP_JOB_DIR/grype -v -o json "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+    -c ${TMP_JOB_DIR}/grype-false-positives.yml \
+    > $WORKSPACE/artifacts/json-output/vulnerability-results-full-${IMAGE}:${IMAGE_TAG}.json
+
 $TMP_JOB_DIR/grype -v -o table "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
-    > $WORKSPACE/artifacts//grype-scan-results-full-${IMAGE}:${IMAGE_TAG}.txt
+    > $WORKSPACE/artifacts/vulnerability-results-full-${IMAGE}:${IMAGE_TAG}.txt
+
+$TMP_JOB_DIR/grype -v -o json --only-fixed "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+    -c ${TMP_JOB_DIR}/grype-false-positives.yml \
+    > $WORKSPACE/artifacts/json-output/vulnerability-results-fixable-${IMAGE}:${IMAGE_TAG}.json
 
 $TMP_JOB_DIR/grype -v -o table --only-fixed --fail-on $FAIL_ON_SEVERITY "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
-    > $WORKSPACE/artifacts//grype-scan-results-fixable-${IMAGE}:${IMAGE_TAG}.txt
+    > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}:${IMAGE_TAG}.txt
 
 # Pass Jenkins dummy artifacts as it needs
 # an xml output to consider the job a success.
