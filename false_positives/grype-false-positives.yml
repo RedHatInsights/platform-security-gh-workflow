@@ -31,3 +31,10 @@ ignore:
       version: 39.2.0
       type: python
       location: "/usr/lib/python3.6/site-packages/**"
+
+# TESTING
+  - vulnerability: CVE-2023-3446
+    package:
+      name: openssl-libs 
+      version: 1:1.1.1k-9.el8_7
+      type: rpm
