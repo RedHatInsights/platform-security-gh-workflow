@@ -4,7 +4,7 @@ ignore:
     # justification: "https://access.redhat.com/errata/RHSA-2021:4455"
     package:
       name: pip
-      version: 9.0.3
+      # version: 9.0.3
       type: python
       location: "/usr/lib/python3.6/site-packages/**"
 
@@ -12,7 +12,7 @@ ignore:
     # justification: "https://access.redhat.com/errata/RHSA-2020:4432"
     package:
       name: pip
-      version: 9.0.3
+      # version: 9.0.3
       type: python
       location: "/usr/lib/python3.6/site-packages/**"
 
@@ -20,7 +20,7 @@ ignore:
     # justification: "Not affected - https://access.redhat.com/security/cve/cve-2023-5752"
     package: 
       name: pip
-      version: 9.0.3
+      # version: 9.0.3
       type: python
       location: "/usr/lib/python3.6/site-packages/**"
 
@@ -28,6 +28,6 @@ ignore:
     # justification: "https://access.redhat.com/errata/RHSA-2023:0835"
     package:
       name: setuptools
-      version: 39.2.0
+      # version: 39.2.0
       type: python
       location: "/usr/lib/python3.6/site-packages/**"
