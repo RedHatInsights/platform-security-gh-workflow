@@ -1,25 +1,25 @@
 {
     "false_postives": [
         {
-            "images": ["insights-3scale", "turnpike-web", "cloudwatch-aggregator"],
+            "images": ["quay.io/repository/cloudservices"],
             "vulnerability_id": "GHSA-5xp3-jfq3-5q8x",
             "package": "pip",
             "notes": "https://access.redhat.com/errata/RHSA-2021:4455"
         },
         {
-            "images": ["insights-3scale", "turnpike-web"],
+            "images": ["quay.io/repository/cloudservices"],
             "vulnerability_id": "GHSA-gpvv-69j7-gwj8",
             "package": "pip",
             "notes": "https://access.redhat.com/errata/RHSA-2020:4432"
         },
         {
-            "images": ["insights-3scale", "turnpike-web", "cloudwatch-aggregator"],
+            "images": ["quay.io/repository/cloudservices"],
             "vulnerability_id": "GHSA-mq26-g339-26xf",
             "package": "pip",
             "notes": "Not affected - https://access.redhat.com/security/cve/cve-2023-5752"
         },
         {
-            "images": ["insights-3scale", "turnpike-web"],
+            "images": ["quay.io/repository/cloudservices"],
             "vulnerability_id": "GHSA-r9hx-vwmv-q579",
             "package": "setuptools",
             "notes": "https://access.redhat.com/errata/RHSA-2023:0835"
