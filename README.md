@@ -121,7 +121,7 @@ To use the Jenkins Job, all you need to do is add the [security-scan-source-temp
 
 
 - [GitHub - "platsec-gh-vulnerability-scan" | Example](https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/gateway/build.yml?ref_type=heads#L92-95)
-- [GitLab - "platsec-gl-vulnerability-scan" | Example]()
+- [GitLab - "platsec-gl-vulnerability-scan" | Example](https://gitlab.cee.redhat.com/service/app-interface/-/blob/master/data/services/insights/frontend-base/cicd/ci-int/jobs.yaml?ref_type=heads#L76-79)
 
 #### Updates
 Similar to the standard GitHub Workflow, we can accommodate feature requests and provide updates on the fly and 
