@@ -1,4 +1,5 @@
-# Platform Security GitHub Workflow
+### ConsoleDot Platform-Security
+# Security Scanning Workflow
 
 ### Table of Contents
 - [Getting Started](#getting-started)
