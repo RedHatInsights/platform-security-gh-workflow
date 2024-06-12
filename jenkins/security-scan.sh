@@ -1,10 +1,5 @@
 #!/bin/bash
 
-###########################
-# This is the BETA version of the security-scan.sh script
-# It is intended to be used for testing updates only
-###########################
-
 set -exv
 
 IMAGE=$1
