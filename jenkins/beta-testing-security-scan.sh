@@ -11,13 +11,15 @@ IMAGE=$1
 IMAGE_TAG="security-scan"
 DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
-PODMAN_OR_DOCKER=${4:-podman}
 
 SYFT_VERSION="v0.94.0"
 GRYPE_VERSION="v0.74.4"
 
 # (Severity Options: negligible, low, medium, high, critical)
 FAIL_ON_SEVERITY=$3
+
+# Build on Podman or Docker
+PODMAN_OR_DOCKER=${4:-podman}
 
 if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
     echo "QUAY_USER and QUAY_TOKEN must be set"
