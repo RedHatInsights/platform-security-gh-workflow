@@ -1,11 +1,17 @@
 #!/bin/bash
 
+###########################
+# This is the BETA version of the security-scan.sh script
+# It is intended to be used for testing updates only
+###########################
+
 set -exv
 
 IMAGE=$1
 IMAGE_TAG="security-scan"
 DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
+PODMAN_OR_DOCKER=${4:-podman}
 
 SYFT_VERSION="v0.94.0"
 GRYPE_VERSION="v0.74.4"
@@ -34,21 +40,50 @@ function job_cleanup() {
 
 trap job_cleanup EXIT ERR SIGINT SIGTERM
 
-# Set up Podman Config
-AUTH_CONF_DIR="${TMP_JOB_DIR}/.podman"
-mkdir -p $AUTH_CONF_DIR
-export REGISTRY_AUTH_FILE="$AUTH_CONF_DIR/auth.json"
+function podman_build {
+    # Set up Podman Config
+    AUTH_CONF_DIR="${TMP_JOB_DIR}/.podman"
+    mkdir -p $AUTH_CONF_DIR
+    export REGISTRY_AUTH_FILE="$AUTH_CONF_DIR/auth.json"
 
-# Log into Red Hat and Quay.io Container Registries
-podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
-podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
+    # Log into Red Hat and Quay.io Container Registries
+    podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+    podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
-# Build Container Image and save to Archive to be scanned
-podman build --pull=true -t "${IMAGE}:${IMAGE_TAG}" $DOCKERFILE_LOCATION
-podman save -o "${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" "${IMAGE}:${IMAGE_TAG}"
+    # Build Container Image and save to Archive to be scanned
+    podman build --pull=true -t "${IMAGE}:${IMAGE_TAG}" $DOCKERFILE_LOCATION
+    podman save -o "${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" "${IMAGE}:${IMAGE_TAG}"
 
-# Clean up / Remove Container Image
-podman rmi "${IMAGE}:${IMAGE_TAG}"
+    # Clean up / Remove Container Image
+    podman rmi "${IMAGE}:${IMAGE_TAG}"
+}
+
+function docker_build {
+    # Set up Docker Config
+    DOCKER_CONF="$TMP_JOB_DIR/.docker"
+    mkdir -p "$DOCKER_CONF"
+
+    # Log into Red Hat and Quay.io Container Registries
+    DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+    DOCKER_CONFIG=$DOCKER_CONF docker login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
+
+    # Build Container Image and save to Archive to be scanned
+    DOCKER_CONFIG=$DOCKER_CONF docker build --no-cache -t "${IMAGE}:${IMAGE_TAG}" $DOCKERFILE_LOCATION
+    DOCKER_CONFIG=$DOCKER_CONF docker save -o "${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" "${IMAGE}:${IMAGE_TAG}"
+
+    # Clean up / Remove Container Image
+    DOCKER_CONFIG=$DOCKER_CONF docker rmi "${IMAGE}:${IMAGE_TAG}"
+}
+
+# Check the value of PODMAN_OR_DOCKER
+if [ "$PODMAN_OR_DOCKER" == "podman" ]; then
+    podman_build
+elif [ "$PODMAN_OR_DOCKER" == "docker" ]; then
+    docker_build
+else
+    echo "Unknown value for PODMAN_OR_DOCKER: $PODMAN_OR_DOCKER"
+    exit 1
+fi
 
 # Install Specific Version of Syft - SBOM Generator
 curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b $TMP_JOB_DIR $SYFT_VERSION
