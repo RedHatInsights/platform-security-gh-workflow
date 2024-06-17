@@ -18,5 +18,8 @@ FAIL_ON_SEVERITY="high"
 # Build on "podman" or "docker"
 PODMAN_OR_DOCKER="podman"
 
+# Dockerfile Name
+DOCKERFILE_NAME="Dockerfile"
+
 curl -sSL https://raw.githubusercontent.com/RedHatInsights/platform-security-gh-workflow/master/jenkins/security-scan.sh | \
-    sh -s "${IMAGE_NAME}" "${DOCKERFILE_LOCATION}" "${FAIL_ON_SEVERITY}" "${PODMAN_OR_DOCKER}"
+    sh -s "${IMAGE_NAME}" "${DOCKERFILE_LOCATION}" "${FAIL_ON_SEVERITY}" "${PODMAN_OR_DOCKER}" "${DOCKERFILE_NAME}"
