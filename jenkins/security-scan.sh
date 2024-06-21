@@ -3,7 +3,7 @@
 set -exv
 
 IMAGE=$1
-IMAGE_TAG="security-scan"
+IMAGE_TAG="security-scan-${GIT_COMMIT::10}"
 DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
 
