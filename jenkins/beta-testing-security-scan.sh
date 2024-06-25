@@ -8,7 +8,7 @@
 set -exv
 
 IMAGE=$1
-IMAGE_TAG="security-scan-${GIT_COMMIT::10}"
+IMAGE_TAG="security-scan"
 DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
 
@@ -56,7 +56,7 @@ function podman_build {
     podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
     # Build Container Image and save to Archive to be scanned
-    podman build --pull=true -f ${DOCKERFILE_NAME} -t "${IMAGE}:${IMAGE_TAG}" $DOCKERFILE_LOCATION
+    podman build --pull=true --no-cache -f ${DOCKERFILE_NAME} -t "${IMAGE}:${IMAGE_TAG}" $DOCKERFILE_LOCATION
     podman save -o "${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" "${IMAGE}:${IMAGE_TAG}"
 
     # Clean up / Remove Container Image
