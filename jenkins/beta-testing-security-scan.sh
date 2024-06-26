@@ -68,8 +68,6 @@ function docker_build {
     DOCKER_CONF="$TMP_JOB_DIR/.docker"
     mkdir -p "$DOCKER_CONF"
 
-    ls $PWD
-
     # Log into Red Hat and Quay.io Container Registries
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
