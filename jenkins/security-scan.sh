@@ -2,8 +2,22 @@
 
 set -exv
 
+IMAGE=$1
+IMAGE_TAG="security-scan"
+DOCKERFILE_LOCATION=$2
+IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
+
 SYFT_VERSION="v0.94.0"
 GRYPE_VERSION="v0.74.4"
+
+# (Severity Options: negligible, low, medium, high, critical)
+FAIL_ON_SEVERITY=$3
+
+# Build on Podman or Docker
+PODMAN_OR_DOCKER=${4:-podman}
+
+# Dockerfile Name
+DOCKERFILE_NAME=${5:-Dockerfile}
 
 if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
     echo "QUAY_USER and QUAY_TOKEN must be set"
@@ -25,20 +39,6 @@ function job_cleanup() {
 }
 
 trap job_cleanup EXIT ERR SIGINT SIGTERM
-
-IMAGE=$1
-IMAGE_TAG="security-scan"
-DOCKERFILE_LOCATION=$2
-IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
-
-# (Severity Options: negligible, low, medium, high, critical)
-FAIL_ON_SEVERITY=$3
-
-# Build on Podman or Docker
-PODMAN_OR_DOCKER=${4:-podman}
-
-# Dockerfile Name
-DOCKERFILE_NAME=${5:-Dockerfile}
 
 function podman_build {
     # Set up Podman Config
