@@ -56,7 +56,7 @@ function podman_build {
     podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
     # Build Container Image and save to Archive to be scanned
-    podman build --pull=true --no-cache -f ${DOCKERFILE_NAME} -t "${IMAGE}:${IMAGE_TAG}" $DOCKERFILE_LOCATION
+    podman build --pull=true --no-cache -f ${DOCKERFILE_NAME} -t "${IMAGE}:${IMAGE_TAG}" $TMP_JOB_DIR/$DOCKERFILE_LOCATION
     podman save -o "${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" "${IMAGE}:${IMAGE_TAG}"
 
     # Clean up / Remove Container Image
@@ -73,7 +73,7 @@ function docker_build {
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
     # Build Container Image and save to Archive to be scanned
-    DOCKER_CONFIG=$DOCKER_CONF docker build --no-cache -f ${DOCKERFILE_NAME} -t "${IMAGE}:${IMAGE_TAG}" $DOCKERFILE_LOCATION
+    DOCKER_CONFIG=$DOCKER_CONF docker build --no-cache -f ${DOCKERFILE_NAME} -t "${IMAGE}:${IMAGE_TAG}" $TMP_JOB_DIR/$DOCKERFILE_LOCATION
     DOCKER_CONFIG=$DOCKER_CONF docker save -o "${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" "${IMAGE}:${IMAGE_TAG}"
 
     # Clean up / Remove Container Image
