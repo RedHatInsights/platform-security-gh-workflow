@@ -28,6 +28,13 @@ ignore:
       type: python
       location: "/usr/lib/python3*/site-packages/**"
 
+  - vulnerability: GHSA-cx63-2mw6-8hw5
+    # justification: "CVE-2024-6345 | Fixed (Backport) - https://access.redhat.com/security/cve/cve-2024-6345"
+    package:
+      name: setuptools
+      type: python
+      location: "/usr/lib/python3.11/site-packages/**"
+
   - vulnerability: GHSA-25w4-hfqg-4r52
     # justification: "CVE-2023-5675 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2023-5675"
     package:

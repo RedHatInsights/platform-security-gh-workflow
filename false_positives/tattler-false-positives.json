@@ -25,6 +25,12 @@
             "notes": "CVE-2022-40897 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2022-40897"
         },
         {
+            "images": ["insights-engine"],
+            "vulnerability_id": "GHSA-cx63-2mw6-8hw5",
+            "package": "setuptools",
+            "notes": "CVE-2024-6345 | Fixed (Backport) - https://access.redhat.com/security/cve/cve-2024-6345"
+        },
+        {
             "images": ["policies-engine"],
             "vulnerability_id": "GHSA-25w4-hfqg-4r52",
             "package": "quarkus-resteasy-reactive-common",
