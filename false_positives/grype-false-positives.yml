@@ -1,42 +1,42 @@
 ---
 ignore:
   - vulnerability: GHSA-5xp3-jfq3-5q8x
-    # justification: "CVE-2021-3572 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2021-3572"
+    reason: "CVE-2021-3572 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2021-3572"
     package:
       name: pip
       type: python
       location: "/usr/lib/python3*/site-packages/**"
 
   - vulnerability: GHSA-gpvv-69j7-gwj8
-    # justification: "CVE-2019-20916 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2019-20916"
+    reason: "CVE-2019-20916 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2019-20916"
     package:
       name: pip
       type: python
       location: "/usr/lib/python3*/site-packages/**"
 
   - vulnerability: GHSA-mq26-g339-26xf
-    # justification: "CVE-2023-5752 | Not Affected - https://access.redhat.com/security/cve/CVE-2023-5752"
+    reason: "CVE-2023-5752 | Not Affected - https://access.redhat.com/security/cve/CVE-2023-5752"
     package: 
       name: pip
       type: python
       location: "/usr/lib/python3*/site-packages/**"
 
   - vulnerability: GHSA-r9hx-vwmv-q579
-    # justification: "CVE-2022-40897 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2022-40897"
+    reason: "CVE-2022-40897 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2022-40897"
     package:
       name: setuptools
       type: python
       location: "/usr/lib/python3*/site-packages/**"
 
   - vulnerability: GHSA-cx63-2mw6-8hw5
-    # justification: "CVE-2024-6345 | Fixed (Backport) - https://access.redhat.com/security/cve/cve-2024-6345"
+    reason: "CVE-2024-6345 | Fixed (Backport) - https://access.redhat.com/security/cve/cve-2024-6345"
     package:
       name: setuptools
       type: python
       location: "/usr/lib/python3*/site-packages/**"
 
   - vulnerability: GHSA-25w4-hfqg-4r52
-    # justification: "CVE-2023-5675 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2023-5675"
+    reason: "CVE-2023-5675 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2023-5675"
     package:
       name: quarkus-resteasy-reactive-common
       type: java-archive
