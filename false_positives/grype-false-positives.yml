@@ -33,7 +33,7 @@ ignore:
     package:
       name: setuptools
       type: python
-      location: "/usr/lib/python3.11/site-packages/**"
+      location: "/usr/lib/python3*/site-packages/**"
 
   - vulnerability: GHSA-25w4-hfqg-4r52
     # justification: "CVE-2023-5675 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2023-5675"
