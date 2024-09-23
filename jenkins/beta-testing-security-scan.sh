@@ -15,6 +15,7 @@ IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
 SYFT_VERSION="v1.12.2"
 GRYPE_VERSION="v0.80.1"
 
+# Sets Syft to Pretty Print JSON Ouputs
 SYFT_FORMAT_JSON_PRETTY=true
 
 # (Severity Options: negligible, low, medium, high, critical)

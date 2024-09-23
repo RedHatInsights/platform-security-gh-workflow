@@ -7,8 +7,11 @@ IMAGE_TAG="security-scan"
 DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
 
-SYFT_VERSION="v0.94.0"
-GRYPE_VERSION="v0.74.4"
+SYFT_VERSION="v1.12.2"
+GRYPE_VERSION="v0.80.1"
+
+# Sets Syft to Pretty Print JSON Ouputs
+SYFT_FORMAT_JSON_PRETTY=true
 
 # (Severity Options: negligible, low, medium, high, critical)
 FAIL_ON_SEVERITY=$3
@@ -100,28 +103,28 @@ mkdir -p $WORKSPACE/artifacts
 
 # Scan Container Image with Syft
 # Output SBOM in Text and JSON Format
-$TMP_JOB_DIR/syft -v -o json "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+$TMP_JOB_DIR/syft -v -o syft-json "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     > $WORKSPACE/artifacts/sbom-results-${IMAGE}.json
 
 $TMP_JOB_DIR/syft -v -o table "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
     > $WORKSPACE/artifacts/sbom-results-${IMAGE}.txt
 
-# Scan Container Image with Grype
+# Scan Container Image's SBOM with Grype
 # Output both "Full List" and "Only Fixable List" Vulnerabilities (text and json)
 # Fail on detected defined level of Vulnerability Severity ("Only Fixable List")
-$TMP_JOB_DIR/grype -v -o json "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+$TMP_JOB_DIR/grype -v -o json "sbom:$WORKSPACE/artifacts/sbom-results-${IMAGE}.json" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
     > $WORKSPACE/artifacts/vulnerability-results-full-${IMAGE}.json
 
-$TMP_JOB_DIR/grype -v -o table "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+$TMP_JOB_DIR/grype -v -o table "sbom:$WORKSPACE/artifacts/sbom-results-${IMAGE}.json" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
     > $WORKSPACE/artifacts/vulnerability-results-full-${IMAGE}.txt
 
-$TMP_JOB_DIR/grype -v -o json --only-fixed "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+$TMP_JOB_DIR/grype -v -o json --only-fixed "sbom:$WORKSPACE/artifacts/sbom-results-${IMAGE}.json" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
     > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.json
 
-$TMP_JOB_DIR/grype -v -o table --only-fixed --fail-on $FAIL_ON_SEVERITY "docker-archive:${TMP_JOB_DIR}/${IMAGE_ARCHIVE}" \
+$TMP_JOB_DIR/grype -v -o table --only-fixed --fail-on $FAIL_ON_SEVERITY "sbom:$WORKSPACE/artifacts/sbom-results-${IMAGE}.json" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
     > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.txt
 
