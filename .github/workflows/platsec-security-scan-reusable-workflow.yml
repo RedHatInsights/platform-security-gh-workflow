@@ -21,10 +21,11 @@
 name: ConsoleDot Platform Security Scan - Reusable Workflow 
 
 env: 
-  GRYPE_VERSION: "v0.74.4"
-  SYFT_VERSION: "v0.94.0"
+  GRYPE_VERSION: "v0.80.1"
+  SYFT_VERSION: "v1.12.2"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
   SYFT_ARTIFACTS_DIR: $SYFT_ARTIFACTS_DIR
+  SYFT_FORMAT_JSON_PRETTY: true
 
 on:
   workflow_call:
@@ -103,16 +104,19 @@ jobs:
       run: docker build ${{ inputs.base_dockerbuild_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
     - name: Build the Docker image
       run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerbuild_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
+    - name: Install Anchore Syft
+      run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Install Anchore Grype
       run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
     - name: Scan image for Vulnerabilities
       run: |
         mkdir $GRYPE_ARTIFACTS_DIR
         curl -sSfL https://raw.githubusercontent.com/RedHatInsights/platform-security-gh-workflow/master/false_positives/grype-false-positives.yml > grype.yml
-        grype -v -c grype.yml -o table localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full-${{ inputs.dockerfile_name }}.txt
-        grype -v -c grype.yml -o json localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full-${{ inputs.dockerfile_name }}.json
-        grype -v -c grype.yml -o table --only-fixed localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable-${{ inputs.dockerfile_name }}.txt
-        grype -v -c grype.yml -o json --only-fixed localbuild/testimage:latest > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable-${{ inputs.dockerfile_name }}.json
+        syft -v -o json localbuild/testimage:latest > testimage.json
+        grype -v -c grype.yml -o table sbom:testimage.json > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full-${{ inputs.dockerfile_name }}.txt
+        grype -v -c grype.yml -o json sbom:testimage.json > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-full-${{ inputs.dockerfile_name }}.json
+        grype -v -c grype.yml -o table --only-fixed sbom:testimage.json > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable-${{ inputs.dockerfile_name }}.txt
+        grype -v -c grype.yml -o json --only-fixed sbom:testimage.json > $GRYPE_ARTIFACTS_DIR/grype-vuln-results-fixable-${{ inputs.dockerfile_name }}.json
     - name: Provide Grype Vulnerability Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -121,10 +125,10 @@ jobs:
     - name: Grade Container Image (Pass or Fail)
       run: |
         if [ "${{ inputs.fail_on_vulns }}" = true ]; then
-          grype -v -c grype.yml --only-fixed --fail-on ${{ inputs.severity_fail_cutoff }} localbuild/testimage:latest
+          grype -v -c grype.yml --only-fixed --fail-on ${{ inputs.severity_fail_cutoff }} sbom:testimage.json
         else
           echo "Fail on vulnerabilities is set to False. Skipping fail on vulnerabilities."
-          grype -v -c grype.yml --only-fixed localbuild/testimage:latest
+          grype -v -c grype.yml --only-fixed sbom:testimage.json
         fi
 
   Anchore-Syft-SBOM-Scan:
@@ -145,7 +149,7 @@ jobs:
       run: |
         mkdir $SYFT_ARTIFACTS_DIR
         syft -v -o table localbuild/testimage:latest > $SYFT_ARTIFACTS_DIR/syft-sbom-results-${{ inputs.dockerfile_name }}.txt
-        syft -v -o json localbuild/testimage:latest > $SYFT_ARTIFACTS_DIR/syft-sbom-results-${{ inputs.dockerfile_name }}.json
+        syft -v -o syft-json localbuild/testimage:latest > $SYFT_ARTIFACTS_DIR/syft-sbom-results-${{ inputs.dockerfile_name }}.json
     - name: Provide Syft SBOM Artifacts
       uses: actions/upload-artifact@v4
       with:
