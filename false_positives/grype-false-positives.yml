@@ -1,43 +1,23 @@
 ---
-ignore:
-  - vulnerability: GHSA-5xp3-jfq3-5q8x
-    reason: "CVE-2021-3572 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2021-3572"
-    package:
-      name: pip
-      type: python
-      location: "/usr/lib/python3*/site-packages/**"
+############
+# Include matches on kernel-headers packages that are matched against upstream kernel package,
+# if 'false' any such matches are marked as ignored.
+############
 
-  - vulnerability: GHSA-gpvv-69j7-gwj8
-    reason: "CVE-2019-20916 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2019-20916"
-    package:
-      name: pip
-      type: python
-      location: "/usr/lib/python3*/site-packages/**"
+match-upstream-kernel-headers: true
 
-  - vulnerability: GHSA-mq26-g339-26xf
-    reason: "CVE-2023-5752 | Not Affected - https://access.redhat.com/security/cve/CVE-2023-5752"
-    package: 
-      name: pip
-      type: python
-      location: "/usr/lib/python3*/site-packages/**"
+############
+# All False-Positives within this list are based on the assumption that the container image being 
+# scanned are built using Red Hat's UBI-8 or UBI-9 Base-Images. If this False-Positive list is used 
+# against any images not using a UBI Base Image, results may be inaccurate, and flag legitimate
+# vulnerabilities as False-Positives.
+############
 
-  - vulnerability: GHSA-r9hx-vwmv-q579
-    reason: "CVE-2022-40897 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2022-40897"
-    package:
-      name: setuptools
-      type: python
-      location: "/usr/lib/python3*/site-packages/**"
-
-  - vulnerability: GHSA-cx63-2mw6-8hw5
-    reason: "CVE-2024-6345 | Fixed (Backport) - https://access.redhat.com/security/cve/cve-2024-6345"
-    package:
-      name: setuptools
-      type: python
-      location: "/usr/lib/python3*/site-packages/**"
-
-  - vulnerability: GHSA-25w4-hfqg-4r52
-    reason: "CVE-2023-5675 | Fixed (Backport) - https://access.redhat.com/security/cve/CVE-2023-5675"
-    package:
-      name: quarkus-resteasy-reactive-common
-      type: java-archive
-      location: "/deployments/lib/main/io.quarkus.quarkus-resteasy-reactive-common-3.2.12.Final-redhat-00001.jar"
+# ignore:
+#   - vulnerability: CVE-2024-0000
+#     reason: "CVE-2023-0000 | Not Affected - https://access.redhat.com/errata/RHSA-2024:0000"
+#     package:
+#       name: pip
+#       version: 23.2.1
+#       type: python
+#       location: "/usr/lib/python3.12/site-packages/**"
