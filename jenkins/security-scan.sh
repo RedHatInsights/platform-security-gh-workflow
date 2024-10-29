@@ -51,6 +51,7 @@ function podman_build {
 
     # Log into Red Hat and Quay.io Container Registries
     podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+    podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
     podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
     # Build Container Image and save to Archive to be scanned
@@ -68,6 +69,7 @@ function docker_build {
 
     # Log into Red Hat and Quay.io Container Registries
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+    DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
     # Build Container Image and save to Archive to be scanned
