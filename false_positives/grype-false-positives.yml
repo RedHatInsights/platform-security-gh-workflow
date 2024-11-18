@@ -21,3 +21,43 @@ match-upstream-kernel-headers: true
 #       version: 23.2.1
 #       type: python
 #       location: "/usr/lib/python3.12/site-packages/**"
+
+ignore:
+  - vulnerability: CVE-2024-34158
+    reason: |
+      "(CVE-2024-34158, CVE-2024-34156, CVE-2024-34155) detected within VMAAS. Grype is flagging 
+      stdlib as vulnerable within the dlv package. This package was patched as stated in RHSA-2024:6908.
+      Patched Version: delve-1.21.2-4
+      Detected Version: >= delve-1.22.1-1
+      REF: https://access.redhat.com/errata/RHSA-2024:6908"
+    package:
+      name: stdlib
+      version: go1.22.5
+      type: go-module
+      location: "/usr/bin/dlv"
+
+  - vulnerability: CVE-2024-34156
+    reason: |
+      "(CVE-2024-34158, CVE-2024-34156, CVE-2024-34155) detected within VMAAS. Grype is flagging 
+      stdlib as vulnerable within the dlv package. This package was patched as stated in RHSA-2024:6908.
+      Patched Version: delve-1.21.2-4
+      Detected Version: >= delve-1.22.1-1
+      REF: https://access.redhat.com/errata/RHSA-2024:6908"
+    package:
+      name: stdlib
+      version: go1.22.5
+      type: go-module
+      location: "/usr/bin/dlv"
+
+  - vulnerability: CVE-2024-34155
+    reason: |
+      "(CVE-2024-34158, CVE-2024-34156, CVE-2024-34155) detected within VMAAS. Grype is flagging 
+      stdlib as vulnerable within the dlv package. This package was patched as stated in RHSA-2024:6908.
+      Patched Version: delve-1.21.2-4
+      Detected Version: >= delve-1.22.1-1
+      REF: https://access.redhat.com/errata/RHSA-2024:6908"
+    package:
+      name: stdlib
+      version: go1.22.5
+      type: go-module
+      location: "/usr/bin/dlv"
