@@ -11,6 +11,7 @@ IMAGE=$1
 IMAGE_TAG="security-scan"
 DOCKERFILE_LOCATION=$2
 IMAGE_ARCHIVE="${IMAGE}-${IMAGE_TAG}.tar"
+BREW_REGISTRY_ENABLED="${BREW_REGISTRY_ENABLED:-}"
 
 SYFT_VERSION="v1.12.2"
 GRYPE_VERSION="v0.80.1"
@@ -56,6 +57,9 @@ function podman_build {
 
     # Log into Red Hat and Quay.io Container Registries
     podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+    if [[ -n "$BREW_REGISTRY_ENABLED" ]]; then
+      podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
+    fi
     podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
     # Build Container Image and save to Archive to be scanned
@@ -73,6 +77,9 @@ function docker_build {
 
     # Log into Red Hat and Quay.io Container Registries
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
+    if [[ -n "$BREW_REGISTRY_ENABLED" ]]; then
+      DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
+    fi
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
     # Build Container Image and save to Archive to be scanned
