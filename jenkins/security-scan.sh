@@ -124,9 +124,19 @@ $TMP_JOB_DIR/grype -v -o json --only-fixed "sbom:$WORKSPACE/artifacts/sbom-resul
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
     > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.json
 
+set +e
 $TMP_JOB_DIR/grype -v -o table --only-fixed --fail-on $FAIL_ON_SEVERITY "sbom:$WORKSPACE/artifacts/sbom-results-${IMAGE}.json" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
     > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.txt
+TEST_RESULT=$?
+set -e
+if [ $TEST_RESULT -ne 0 ]; then
+    echo '==============================================='
+    echo '==== ✖ ERROR: Vulnerable packages detected ===='
+    echo '==============================================='
+    cat $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.txt
+    exit $TEST_RESULT
+fi
 
 # Pass Jenkins dummy artifacts as it needs
 # an xml output to consider the job a success.
