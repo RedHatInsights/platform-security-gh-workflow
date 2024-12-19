@@ -23,6 +23,8 @@ name: ConsoleDot Platform Security Scan - Reusable Workflow
 env: 
   GRYPE_VERSION: "v0.80.1"
   SYFT_VERSION: "v1.12.2"
+  SYFT_COMMIT_HASH: "fcd5ec951de6b3fc1f1aa2a36968356d2eb22170"
+  GRYPE_COMMIT_HASH: "9fb219495a634d7ff9904154355b927223a66602"
   GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
   SYFT_ARTIFACTS_DIR: $SYFT_ARTIFACTS_DIR
   SYFT_FORMAT_JSON_PRETTY: true
@@ -105,9 +107,9 @@ jobs:
     - name: Build the Docker image
       run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerbuild_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Syft
-      run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
+      run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/${SYFT_COMMIT_HASH}/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Install Anchore Grype
-      run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
+      run: curl -sSfL https://raw.githubusercontent.com/anchore/grype/${GRYPE_COMMIT_HASH}/install.sh | sh -s -- -b /usr/local/bin $GRYPE_VERSION
     - name: Scan image for Vulnerabilities
       run: |
         mkdir $GRYPE_ARTIFACTS_DIR
@@ -144,7 +146,7 @@ jobs:
     - name: Build the Docker image
       run: docker build ${{ inputs.build_arg }} ${{ inputs.dockerbuild_path }} --file ${{ inputs.dockerfile_path }}/${{ inputs.dockerfile_name }} --tag localbuild/testimage:latest
     - name: Install Anchore Syft
-      run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
+      run: curl -sSfL https://raw.githubusercontent.com/anchore/syft/${SYFT_COMMIT_HASH}/install.sh | sh -s -- -b /usr/local/bin $SYFT_VERSION
     - name: Scan the image and generate SBOM
       run: |
         mkdir $SYFT_ARTIFACTS_DIR
