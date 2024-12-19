@@ -16,6 +16,9 @@ BREW_REGISTRY_ENABLED="${BREW_REGISTRY_ENABLED:-}"
 SYFT_VERSION="v1.12.2"
 GRYPE_VERSION="v0.80.1"
 
+SYFT_COMMIT_HASH="fcd5ec951de6b3fc1f1aa2a36968356d2eb22170"
+GRYPE_COMMIT_HASH="9fb219495a634d7ff9904154355b927223a66602"
+
 # Sets Syft to Pretty Print JSON Ouputs
 SYFT_FORMAT_JSON_PRETTY=true
 
@@ -58,7 +61,7 @@ function podman_build {
     # Log into Red Hat and Quay.io Container Registries
     podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
     if [[ -n "$BREW_REGISTRY_ENABLED" ]]; then
-      podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
+        podman login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
     fi
     podman login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
@@ -78,7 +81,7 @@ function docker_build {
     # Log into Red Hat and Quay.io Container Registries
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
     if [[ -n "$BREW_REGISTRY_ENABLED" ]]; then
-      DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
+        DOCKER_CONFIG=$DOCKER_CONF docker login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" brew.registry.redhat.io
     fi
     DOCKER_CONFIG=$DOCKER_CONF docker login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 
@@ -101,10 +104,10 @@ else
 fi
 
 # Install Specific Version of Syft - SBOM Generator
-curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b $TMP_JOB_DIR $SYFT_VERSION
+curl -sSfL https://raw.githubusercontent.com/anchore/syft/${SYFT_COMMIT_HASH}/install.sh | sh -s -- -b $TMP_JOB_DIR $SYFT_VERSION
 
 # Install Specific Version of Grype - Vulnerability Scanner
-curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b $TMP_JOB_DIR $GRYPE_VERSION
+curl -sSfL https://raw.githubusercontent.com/anchore/grype/${GRYPE_COMMIT_HASH}/install.sh | sh -s -- -b $TMP_JOB_DIR $GRYPE_VERSION
 
 # Download False Positives File from Platform Security GH Workflow Repo
 curl -sSfL https://raw.githubusercontent.com/RedHatInsights/platform-security-gh-workflow/master/false_positives/grype-false-positives.yml \
