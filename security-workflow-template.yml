@@ -39,6 +39,7 @@ jobs:
     #   dockerbuild_path: './buildtest'
     #   dockerfile_path: './test'
     #   dockerfile_name: 'Dockerfile.main'
+    #   app_name: 'my_app'
     #   base_image_build: true
     #   base_dockerbuild_path: './testbuild.base'
     #   base_dockerfile_path: './test'
