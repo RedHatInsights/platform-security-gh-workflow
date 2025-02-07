@@ -40,3 +40,4 @@ jobs:
       dockerfile_path: './test'
       dockerfile_name: 'Dockerfile.main'
       fail_on_vulns: false
+      app_name: 'test-app'

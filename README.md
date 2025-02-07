@@ -53,6 +53,7 @@ If your `Dockerfile` is named in a standard fashion and is present in the `root`
 | `dockerbuild_path` | `String` | Path to your docker build within the GitHub repo. |
 | `dockerfile_path` | `String` | Path to your Dockerfile within the GitHub repo. |
 | `dockerfile_name` | `String`| Filename of your Dockerfile. |
+| `app_name` | `String`| Changes the Default Name for the Ariftacts directory. (Default based on `dockerfile_name`) |
 | `base_image_build` | `Boolean` | Tells the workflow whether a preliminary Dockerfile should be built before the primary Dockerfile is built. |
 | `base_dockerbuild_path` | `String` | Path to your docker build within the GitHub repo. |
 | `base_dockerfile_path` | `String` | Path to your preliminary Dockerfile within the GitHub repo. |
@@ -92,7 +93,7 @@ Super Easy! Just copy the `security-workflow-template.yml` file to your reposito
 
 ## Troubleshooting
 
-**Unauthorized Error (During Docker Build):**
+### Unauthorized Error (During Docker Build):
 ```
 Unauthorized: Please login to the Red Hat Registry using your Customer Portal credentials.
 Further instructions can be found here: https://access.redhat.com/RegistryAuthentication
@@ -102,7 +103,6 @@ Further instructions can be found here: https://access.redhat.com/RegistryAuthen
 
 Please review the RH Registries below:
 
-
 Registry | Content | Supports Unauthenticated Access | Supports Red Hat login | Supports Registry Tokens
 -- | -- | -- | -- | --
 registry.access.redhat.com | Red Hat products | Yes | No | No
@@ -110,6 +110,18 @@ registry.redhat.io | Red Hat products | No | Yes | Yes
 registry.connect.redhat.com | Third-party products | No | Yes | Yes
 
 REF: https://access.redhat.com/RegistryAuthentication
+
+---
+
+### Failed to CreateArtifact
+```
+Failed to CreateArtifact: Received non-retryable error: Failed request: (409) 
+Conflict: an artifact with this name already exists on the workflow run
+```
+
+**Solution:**
+* Add the `app_name` parameter to the security jobs in your workflow. This error is likely due to multiple overlapping artifact directories receiving the same default name of `dockerfile`.
+
 
 ## Jenkins
 In the event that an edge case prevents your repo from using the GitHub workflow, we have also created 

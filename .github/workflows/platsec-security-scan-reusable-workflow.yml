@@ -89,6 +89,11 @@ on:
         default: 'high'
         required: false
         type: string
+      app_name:
+        description: 'Changes the Default Name for the Ariftacts directory'
+        default: ''
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -122,7 +127,7 @@ jobs:
     - name: Provide Grype Vulnerability Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: grype-vuln-artifacts-${{ inputs.dockerfile_name }}
+        name: grype-vuln-results-${{ inputs.app_name != '' && inputs.app_name || inputs.dockerfile_name }}
         path: $GRYPE_ARTIFACTS_DIR
     - name: Grade Container Image (Pass or Fail)
       run: |
@@ -155,5 +160,5 @@ jobs:
     - name: Provide Syft SBOM Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: syft-sbom-artifacts-${{ inputs.dockerfile_name }}
+        name: syft-sbom-results-${{ inputs.app_name != '' && inputs.app_name || inputs.dockerfile_name }}
         path: $SYFT_ARTIFACTS_DIR
