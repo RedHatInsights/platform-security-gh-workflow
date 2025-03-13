@@ -61,3 +61,17 @@ ignore:
       version: go1.22.5
       type: go-module
       location: "/usr/bin/dlv"
+
+  - vulnerability: GHSA-93ww-43rr-79v3   # CVE-2024-10039
+    reason: >
+      GHSA-93ww-43rr-79v3 (CVE-2024-10039) detected within RHBKC (KeyCloak). Grype is flagging 
+      keycloak-core as vulnerable. This package was patched as stated in Red Hat build of Keycloak v24.0.9
+      patch notes.
+      Patched Version: 24.0.9
+      Detected Version: >= 24.0.10.redhat-00001
+      REF: https://docs.redhat.com/en/documentation/red_hat_build_of_keycloak/24.0/html/release_notes/red_hat_build_of_keycloak_24_0#overview
+    package:
+      name: keycloak-core
+      version: 24.0.10.redhat-00001
+      type: java-archive
+      location: "/opt/keycloak/lib/lib/main/org.keycloak.keycloak-core-24.0.10.redhat-00001.jar"
