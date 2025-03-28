@@ -30,10 +30,6 @@ on:
 jobs:
   Default_Test-PlatSec-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
-    # secrets:
-    #   RH_CATALOG_USERNAME: ${{ secrets.RH_CATALOG_USERNAME }}
-    #   RH_CATALOG_PASSWORD: ${{ secrets.RH_CATALOG_PASSWORD }}
-
   Inputs_Test-PlatSec-Workflow:
     uses: ./.github/workflows/platsec-security-scan-reusable-workflow.yml
     with:
