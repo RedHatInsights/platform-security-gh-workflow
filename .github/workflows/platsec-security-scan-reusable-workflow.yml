@@ -31,11 +31,6 @@ env:
 
 on:
   workflow_call:
-    secrets:
-      RH_CATALOG_USERNAME:
-        required: false
-      RH_CATALOG_PASSWORD:
-        required: false
     inputs:
       # Defaults
       dockerbuild_path: 
@@ -111,13 +106,6 @@ jobs:
     steps:
     - name: Check out the code
       uses: actions/checkout@v4
-    - name: Log in to Red Hat Catalog
-      run: |
-        if [[ -z "${{ secrets.RH_CATALOG_USERNAME }}" || -z "${{ secrets.RH_CATALOG_PASSWORD }}" ]]; then
-          echo "Skipping login: Red Hat credentials not set"
-          exit 0
-        fi
-        echo "${{ secrets.RH_CATALOG_USERNAME }}" | docker login registry.redhat.io -u "${{ secrets.RH_CATALOG_PASSWORD }}" --password-stdin
     - name: Build the Base Docker image
       if: ${{ inputs.base_image_build }}
       run: docker build ${{ inputs.base_dockerbuild_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
@@ -157,13 +145,6 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v4
-    - name: Log in to Red Hat Catalog
-      run: |
-        if [[ -z "${{ secrets.RH_CATALOG_USERNAME }}" || -z "${{ secrets.RH_CATALOG_PASSWORD }}" ]]; then
-          echo "Skipping login: Red Hat credentials not set"
-          exit 0
-        fi
-        echo "${{ secrets.RH_CATALOG_USERNAME }}" | docker login registry.redhat.io -u "${{ secrets.RH_CATALOG_PASSWORD }}" --password-stdin
     - name: Build the Base Docker image
       if: ${{ inputs.base_image_build }}
       run: docker build ${{ inputs.base_dockerbuild_path }} --file ${{ inputs.base_dockerfile_path }}/${{ inputs.base_dockerfile_name}} --tag localbuild/baseimage:latest
