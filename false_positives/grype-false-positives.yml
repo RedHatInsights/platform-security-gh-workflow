@@ -15,7 +15,8 @@ match-upstream-kernel-headers: true
 
 # ignore:
 #   - vulnerability: CVE-2024-0000
-#     reason: "CVE-2023-0000 | Not Affected - https://access.redhat.com/errata/RHSA-2024:0000"
+#     reason: >-
+#       CVE-2023-0000 | Not Affected - https://access.redhat.com/errata/RHSA-2024:0000
 #     package:
 #       name: pip
 #       version: 23.2.1
@@ -24,7 +25,7 @@ match-upstream-kernel-headers: true
 
 ignore:
   - vulnerability: CVE-2024-34158
-    reason: >
+    reason: >-
       (CVE-2024-34158, CVE-2024-34156, CVE-2024-34155) detected within VMAAS. Grype is flagging 
       stdlib as vulnerable within the dlv package. This package was patched as stated in RHSA-2024:6908.
       Patched Version: delve-1.21.2-4
@@ -37,7 +38,7 @@ ignore:
       location: "/usr/bin/dlv"
 
   - vulnerability: CVE-2024-34156
-    reason: >
+    reason: >-
       (CVE-2024-34158, CVE-2024-34156, CVE-2024-34155) detected within VMAAS. Grype is flagging 
       stdlib as vulnerable within the dlv package. This package was patched as stated in RHSA-2024:6908.
       Patched Version: delve-1.21.2-4
@@ -50,7 +51,7 @@ ignore:
       location: "/usr/bin/dlv"
 
   - vulnerability: CVE-2024-34155
-    reason: >
+    reason: >-
       (CVE-2024-34158, CVE-2024-34156, CVE-2024-34155) detected within VMAAS. Grype is flagging 
       stdlib as vulnerable within the dlv package. This package was patched as stated in RHSA-2024:6908.
       Patched Version: delve-1.21.2-4
@@ -63,7 +64,7 @@ ignore:
       location: "/usr/bin/dlv"
 
   - vulnerability: GHSA-93ww-43rr-79v3   # CVE-2024-10039
-    reason: >
+    reason: >-
       GHSA-93ww-43rr-79v3 (CVE-2024-10039) detected within RHBKC (KeyCloak). Grype is flagging 
       keycloak-core as vulnerable. This package was patched as stated in Red Hat build of Keycloak v24.0.9
       patch notes.
