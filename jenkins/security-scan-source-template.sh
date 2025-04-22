@@ -12,7 +12,7 @@ set -exv
 IMAGE_NAME="my-app"
 DOCKERFILE_LOCATION="."
 
-# (Severity Options: negligible, low, medium, high, critical)
+# (Severity Options: disabled, negligible, low, medium, high, critical)
 FAIL_ON_SEVERITY="high"
 
 # Build on "podman" or "docker"

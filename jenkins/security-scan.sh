@@ -16,7 +16,7 @@ GRYPE_COMMIT_HASH="9fb219495a634d7ff9904154355b927223a66602"
 # Sets Syft to Pretty Print JSON Ouputs
 SYFT_FORMAT_JSON_PRETTY=true
 
-# (Severity Options: negligible, low, medium, high, critical)
+# (Severity Options: disabled, negligible, low, medium, high, critical)
 FAIL_ON_SEVERITY=$3
 
 # Build on Podman or Docker
@@ -128,10 +128,16 @@ $TMP_JOB_DIR/grype -v -o json --only-fixed "sbom:$WORKSPACE/artifacts/sbom-resul
     > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.json
 
 set +e
-$TMP_JOB_DIR/grype -v -o table --only-fixed --fail-on $FAIL_ON_SEVERITY "sbom:$WORKSPACE/artifacts/sbom-results-${IMAGE}.json" \
+FAIL_ON_ARG=""
+if [[ "$FAIL_ON_SEVERITY" != "disabled" ]]; then
+    FAIL_ON_ARG="--fail-on $FAIL_ON_SEVERITY"
+fi
+
+$TMP_JOB_DIR/grype -v -o table --only-fixed $FAIL_ON_ARG "sbom:$WORKSPACE/artifacts/sbom-results-${IMAGE}.json" \
     -c ${TMP_JOB_DIR}/grype-false-positives.yml \
     > $WORKSPACE/artifacts/vulnerability-results-fixable-${IMAGE}.txt
 TEST_RESULT=$?
+
 set -e
 if [ $TEST_RESULT -ne 0 ]; then
     echo '==============================================='
