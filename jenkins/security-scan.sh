@@ -15,7 +15,7 @@ GRYPE_COMMIT_HASH="9fb219495a634d7ff9904154355b927223a66602"
 
 # Max allowed age for vulnerability database, age being the time since it was built
 # Default max age is 120h (or five days) (env: GRYPE_DB_MAX_ALLOWED_BUILT_AGE)
-GRYPE_DB_MAX_ALLOWED_BUILT_AGE="240h0m0s"
+export GRYPE_DB_MAX_ALLOWED_BUILT_AGE="240h0m0s"
 
 # Sets Syft to Pretty Print JSON Ouputs
 SYFT_FORMAT_JSON_PRETTY=true
