@@ -1,4 +1,4 @@
-### ConsoleDot Platform-Security
+### HCM Security Team
 # Security Scanning Workflow
 
 ### Table of Contents
@@ -12,7 +12,7 @@
 
 ---
 
-This project aims to provide Red Hat ConsoleDot Teams with a way to scan the containers they create in a convenient, automated, and reliable manner within their GitHub repository. The `Platform Security Github Workflow` lets teams get security feedback as they open Pull Requests and fix any vulnerability before committing the code to a repository.
+This project aims to provide Red Hat HCM Teams with a way to scan the containers they create in a convenient, automated, and reliable manner within their GitHub repository. The `Platform Security Github Workflow` lets teams get security feedback as they open Pull Requests and fix any vulnerability before committing the code to a repository.
 
 The `Platform Security Workflow` uses the free and open-source security tools Anchore's [Syft](https://github.com/anchore/syft/) and [Grype](https://github.com/anchore/grype/). 
 
@@ -78,7 +78,7 @@ jobs:
 ```
 
 ## False Positives
-If you encounter a False Positive, please reach out to the ConsoleDot Platform Security Team, and we can review and 
+If you encounter a False Positive, please reach out to the HCM Security Team, and we can review and 
 add the false positive to our tracker. Once a false positive is added to the tracker 
 ([grype-false-positives.yml](/false_positives/grype-false-positives.yml)), it will no longer show up in your scans.
 
