@@ -21,16 +21,20 @@
 name: ConsoleDot Platform Security Scan - Reusable Workflow 
 
 env: 
-  GRYPE_VERSION: "v0.80.1"
-  SYFT_VERSION: "v1.12.2"
-  SYFT_COMMIT_HASH: "fcd5ec951de6b3fc1f1aa2a36968356d2eb22170"
-  GRYPE_COMMIT_HASH: "9fb219495a634d7ff9904154355b927223a66602"
-  GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
+  SYFT_VERSION: "v1.42.2"
+  GRYPE_VERSION: "v0.109.1"
+
+  SYFT_COMMIT_HASH: "75455f050ab028977a6b625165e2ad3644fcc845"
+  GRYPE_COMMIT_HASH: "baf391d5c672e8f409953baa49ea243265866b2c"
+  
   SYFT_ARTIFACTS_DIR: $SYFT_ARTIFACTS_DIR
+  GRYPE_ARTIFACTS_DIR: $GRYPE_ARTIFACTS_DIR
+
   SYFT_FORMAT_JSON_PRETTY: true
+  
   # Max allowed age for vulnerability database, age being the time since it was built
-  # Default max age is 120h (or five days) (env: GRYPE_DB_MAX_ALLOWED_BUILT_AGE)
-  GRYPE_DB_MAX_ALLOWED_BUILT_AGE: 240h0m0s
+  # Default max age is 336h (or 14 days) (env: GRYPE_DB_MAX_ALLOWED_BUILT_AGE)
+  GRYPE_DB_MAX_ALLOWED_BUILT_AGE: 336h0m0s
 
 on:
   workflow_call:
